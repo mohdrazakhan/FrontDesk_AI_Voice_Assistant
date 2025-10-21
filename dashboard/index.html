@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontdesk Dashboard</title>
+    <link rel="icon" type="image/png" href="/dashboard/images/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard/static/dashboard.css?v=19" />
+    <link rel="stylesheet" href="/dashboard/static/dashboard-modern.css?v=2" />
+    <link rel="stylesheet" href="/dashboard/static/settings-modern.css?v=1" />
+    <link rel="stylesheet" href="/dashboard/static/supervisors-modern.css?v=1" />
+    <link rel="stylesheet" href="/dashboard/static/knowledge-modern.css?v=1" />
+    <link rel="stylesheet" href="/dashboard/static/requests-modern.css?v=2" />
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="/dashboard/static/dashboard.js?v=22"></script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <style>body{background:#f6f7fb;}</style>
+    <!-- Old dashboard shell restored -->
+    <!-- This HTML provides the IDs/classes expected by dashboard.js -->
+    <!-- Keep structure minimal but functional -->
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display:none;">
+        <div class="spinner-lg"></div>
+        <div>Loading...</div>
+    </div>
+
+    <!-- Topbar -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <button id="menu-toggle" class="hamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+            <img class="brand" src="/dashboard/images/frontdesk.png" alt="Frontdesk" />
+            <nav class="topbar-nav">
+                <a href="#" class="nav-link active" data-page="dashboard">Dashboard</a>
+                <a href="#" class="nav-link" data-page="requests">Requests</a>
+                <a href="#" class="nav-link" data-page="knowledge">Knowledge</a>
+                <a href="#" class="nav-link" data-page="supervisors">Supervisors</a>
+                <a href="#" class="nav-link" data-page="settings">Settings</a>
+            </nav>
+        </div>
+        <div class="topbar-right">
+            <!-- Agent Status Indicator -->
+            <div id="agent-status-indicator" class="agent-status-indicator" title="Agent Communication Status">
+                <span class="agent-status-dot"></span>
+                <span class="agent-status-text">Agent</span>
+                <span id="agent-pending-count" class="agent-pending-count" style="display:none;">0</span>
+            </div>
+            
+            <button id="notif-btn" class="icon-btn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+                <span class="icon-bell"></span>
+                <span id="notif-badge" class="badge">0</span>
+            </button>
+            <div id="notif-dropdown" class="notif-dropdown" role="menu" aria-label="Notifications">
+                <div class="notif-dropdown-header">Recent</div>
+                <ul id="notif-list" class="notif-list"></ul>
+                <div class="notif-footer"><a href="#" id="view-all-notifs">View all</a></div>
+            </div>
+            <button id="user-profile-btn" class="profile-btn" aria-haspopup="true" aria-expanded="false">
+                <img id="user-profile-img" alt="User" />
+                <span id="user-profile-name">User</span>
+            </button>
+            <div id="user-dropdown" class="user-dropdown" role="menu" aria-label="Profile">
+                <div class="user-card">
+                    <img id="user-dropdown-img" alt="User" />
+                    <div>
+                        <div id="user-dropdown-fullname" class="fullname">User</div>
+                        <div id="user-dropdown-email" class="muted">user@example.com</div>
+                        <div id="user-dropdown-role" class="muted">supervisor</div>
+                    </div>
+                </div>
+                <a href="/login-history" class="dropdown-item">
+                    <span class="dropdown-icon">📊</span>
+                    Login History
+                </a>
+                <a href="#" id="user-settings-btn" class="dropdown-item">
+                    <span class="dropdown-icon">⚙️</span>
+                    Settings
+                </a>
+                <button id="user-logout-btn" class="dropdown-item">
+                    <span class="dropdown-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <button id="sidebar-close" class="sidebar-close" aria-label="Close sidebar">×</button>
+        <div class="sidebar-brand">
+            <img class="sidebar-logo" src="/dashboard/images/frontdesk.png" alt="Frontdesk" />
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">Dashboard</a>
+            <a href="#" class="nav-item">Requests</a>
+            <a href="#" class="nav-item">Knowledge</a>
+            <a href="#" class="nav-item">Supervisors</a>
+            <a href="#" class="nav-item">Settings</a>
+        </nav>
+    </aside>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Main content pages -->
+    <main class="main-content">
+        <!-- Dashboard page -->
+        <section id="page-dashboard">
+            <!-- Hero Stats Section -->
+            <div class="dashboard-hero">
+                <div class="hero-stats">
+                    <div class="stat-card-modern animate-slide-up" style="animation-delay: 0.1s">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-content">
+                            <div class="stat-title">Active Time</div>
+                            <div id="active-time" class="stat-value">00:00:00</div>
+                            <div class="muted">Current session</div>
+                        </div>
+                    </div>
+                    <div class="stat-card-modern animate-slide-up" style="animation-delay: 0.2s">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-content">
+                            <div class="stat-title">Your Solved</div>
+                            <div id="my-solved-count" class="stat-value">0</div>
+                            <div class="muted">Questions resolved</div>
+                        </div>
+                    </div>
+                    <div class="stat-card-modern animate-slide-up" style="animation-delay: 0.3s">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-content">
+                            <div class="stat-title">Pending</div>
+                            <div id="pending-count" class="stat-value">0</div>
+                            <div class="muted">Waiting for answer</div>
+                        </div>
+                    </div>
+                    <div class="stat-card-modern animate-slide-up" style="animation-delay: 0.4s">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-title">Total Requests</div>
+                            <div id="total-count" class="stat-value">0</div>
+                            <div class="muted">All time</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Charts Section -->
+            <div class="dashboard-chart-section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 1.5rem;">
+                <!-- Questions Chart -->
+                <div class="chart-card animate-fade-in">
+                    <div class="chart-header">
+                        <h2>Questions Overview</h2>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="dot pending-dot"></span> Pending: <strong id="chart-pending">0</strong></span>
+                        </div>
+                    </div>
+                    <canvas id="pending-chart" height="280"></canvas>
+                </div>
+                <!-- Active Time Log Chart -->
+                <div class="chart-card animate-fade-in">
+                    <div class="chart-header">
+                        <h2>User Active Time Log</h2>
+                        <div class="chart-legend">
+                            <span class="legend-item"><span class="dot" style="background:#10b981;"></span> Active Time (min)</span>
+                        </div>
+                    </div>
+                    <canvas id="active-time-chart" height="280"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Questions Section -->
+            <div class="recent-section">
+                <div class="section-header">
+                    <h2>Recent Questions</h2>
+                    <button id="refresh-btn" class="btn-refresh">🔄 Refresh</button>
+                </div>
+                <div id="recent-questions" class="recent-questions-grid">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Requests page -->
+        <section id="page-requests" class="requests-modern-page" style="display:none;">
+            <!-- Page Header -->
+            <div class="requests-page-header">
+                <h1 class="requests-page-title">📩 Requests</h1>
+                <p class="requests-page-subtitle">View and manage all customer questions and requests</p>
+            </div>
+
+            <!-- Bookmarks Section -->
+            <div id="bookmarks-section" class="bookmarks-section" style="display:none;">
+                <div class="bookmarks-header">
+                    <h3>🔖 Bookmarked Questions</h3>
+                    <span class="bookmarks-count" id="bookmarks-count">0</span>
+                </div>
+                <div class="bookmarks-grid" id="bookmarks-grid">
+                    <!-- Bookmarked items will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Filter and Refresh -->
+            <div class="requests-controls" style="max-width:1400px;margin:0 auto 2rem auto;padding:0 2rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;">
+                <label for="status-filter" style="font-weight:600;color:#374151;">Status
+                    <select id="status-filter" style="margin-left:0.5rem;padding:0.6rem 1.2rem;border-radius:10px;border:2px solid #e5e7eb;font-size:1rem;">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="unresolved">Unresolved</option>
+                    </select>
+                </label>
+                <button id="refresh-btn-requests" class="btn-add-request" style="margin-left:auto;" onclick="refreshRequests()">
+                    <span>🔄</span> Refresh
+                </button>
+            </div>
+
+            <!-- Requests Grid -->
+            <div id="requests-grid" class="requests-grid">
+                <!-- Request cards will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="requests-empty" class="requests-empty-state" style="display:none;">
+                <div class="empty-icon">📭</div>
+                <h3>No Requests Found</h3>
+                <p>All customer requests will appear here. You're all caught up!</p>
+            </div>
+
+            <!-- Answer Modal -->
+            <div id="answer-modal" class="answer-modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>💬 Reply to Question</h3>
+                        <button class="close-modal-btn" id="close-answer-modal">✕</button>
+                    </div>
+                    <div class="modal-question" id="modal-question-text"></div>
+                    <textarea 
+                        id="modal-answer-text" 
+                        class="modal-textarea" 
+                        placeholder="Type your answer here..."
+                    ></textarea>
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-modal-cancel" id="cancel-answer-btn">Cancel</button>
+                        <button class="btn-modal btn-modal-send" id="send-answer-btn">Send Answer</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Knowledge page -->
+        <section id="page-knowledge" class="knowledge-modern-page" style="display:none;">
+            <!-- Page Header -->
+            <div class="knowledge-page-header">
+                <h1 class="knowledge-page-title">📚 Knowledge Base</h1>
+                <p class="knowledge-page-subtitle">Your organization's Q&A library powered by AI</p>
+            </div>
+
+            <!-- Search and Stats -->
+            <div class="knowledge-controls">
+                <div class="knowledge-search-box">
+                    <span class="search-icon">🔍</span>
+                    <input 
+                        type="text" 
+                        id="knowledge-search" 
+                        placeholder="Search questions or answers..." 
+                        class="knowledge-search-input"
+                    />
+                </div>
+                <div class="knowledge-stats">
+                    <div class="kb-stat">
+                        <span class="kb-stat-value" id="kb-total-count">0</span>
+                        <span class="kb-stat-label">Total Entries</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add New Entry Button -->
+            <div class="knowledge-actions">
+                <button class="btn-add-knowledge" onclick="toggleAddKnowledgeForm()">
+                    <span>➕</span> Add New Entry
+                </button>
+            </div>
+
+            <!-- Add Knowledge Form (Hidden by default) -->
+            <div id="add-knowledge-form" class="add-knowledge-form" style="display: none;">
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3>Add New Knowledge Entry</h3>
+                        <button class="close-form-btn" onclick="toggleAddKnowledgeForm()">✕</button>
+                    </div>
+                    <div class="form-card-body">
+                        <div class="form-group-modern">
+                            <label for="new-kb-question">Question</label>
+                            <textarea 
+                                id="new-kb-question" 
+                                rows="2" 
+                                placeholder="Enter the question..."
+                            ></textarea>
+                        </div>
+                        <div class="form-group-modern">
+                            <label for="new-kb-answer">Answer</label>
+                            <textarea 
+                                id="new-kb-answer" 
+                                rows="4" 
+                                placeholder="Enter the answer..."
+                            ></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-modern btn-secondary-modern" onclick="toggleAddKnowledgeForm()">
+                                Cancel
+                            </button>
+                            <button class="btn-modern btn-primary-modern" onclick="saveNewKnowledgeEntry()">
+                                <span>💾</span> Save Entry
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knowledge Cards Grid -->
+            <div id="knowledge-grid" class="knowledge-grid">
+                <!-- Cards will be loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="knowledge-empty" class="knowledge-empty-state" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <h3>No Knowledge Base Entries</h3>
+                <p>Start building your knowledge base by adding Q&A entries.</p>
+                <button class="btn-modern btn-primary-modern" onclick="toggleAddKnowledgeForm()">
+                    <span>➕</span> Add First Entry
+                </button>
+            </div>
+        </section>
+
+        <!-- Supervisors page -->
+        <section id="page-supervisors" class="supervisors-modern-page" style="display:none;">
+            <!-- Page Header -->
+            <div class="supervisors-page-header">
+                <h1 class="supervisors-page-title">👥 Supervisors</h1>
+                <p class="supervisors-page-subtitle">Manage your team members and access requests</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="supervisors-stats-row">
+                <div class="supervisor-stat-card">
+                    <div class="stat-icon-super">✅</div>
+                    <div class="stat-info-super">
+                        <div class="stat-label-super">Active Supervisors</div>
+                        <div class="stat-value-super" id="active-count">0</div>
+                    </div>
+                </div>
+                <div class="supervisor-stat-card">
+                    <div class="stat-icon-super">⏳</div>
+                    <div class="stat-info-super">
+                        <div class="stat-label-super">Pending Requests</div>
+                        <div class="stat-value-super" id="pending-count">0</div>
+                    </div>
+                </div>
+                <div class="supervisor-stat-card">
+                    <div class="stat-icon-super">👨‍💼</div>
+                    <div class="stat-info-super">
+                        <div class="stat-label-super">Total Members</div>
+                        <div class="stat-value-super" id="total-count">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="supervisors-tabs">
+                <button class="supervisor-tab active" data-status="approved" onclick="switchSupervisorTab('active')">
+                    <span class="tab-icon">✅</span>
+                    Active Supervisors
+                </button>
+                <button class="supervisor-tab" data-status="pending" onclick="switchSupervisorTab('pending')">
+                    <span class="tab-icon">⏳</span>
+                    Pending Requests
+                </button>
+                <button class="supervisor-tab" data-status="rejected" onclick="switchSupervisorTab('rejected')">
+                    <span class="tab-icon">❌</span>
+                    Rejected
+                </button>
+            </div>
+
+            <!-- Active Supervisors -->
+            <div id="active-supervisors" class="supervisors-section">
+                <div id="active-supervisors-list" class="supervisors-grid">
+                    <!-- Cards will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Pending Requests -->
+            <div id="pending-supervisors" class="supervisors-section" style="display:none;">
+                <div id="pending-supervisors-list" class="supervisors-grid">
+                    <!-- Cards will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Rejected -->
+            <div id="rejected-supervisors" class="supervisors-section" style="display:none;">
+                <div id="rejected-supervisors-list" class="supervisors-grid">
+                    <!-- Cards will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings page -->
+        <section id="page-settings" class="settings-modern-page" style="display:none;">
+            <!-- Page Header -->
+            <div class="settings-page-header">
+                <h1 class="settings-page-title">⚙️ Settings</h1>
+                <p class="settings-page-subtitle">Manage your account settings and preferences</p>
+            </div>
+
+            <!-- Settings Container -->
+            <div class="settings-modern-container">
+                <!-- Profile Card -->
+                <div class="settings-modern-card profile-card-modern">
+                    <div class="settings-card-header-modern">
+                        <div class="header-icon">👤</div>
+                        <div>
+                            <h3>Profile Information</h3>
+                            <p>Update your personal details and profile picture</p>
+                        </div>
+                    </div>
+                    <div class="settings-card-body-modern">
+                        <div class="profile-display-section">
+                            <div class="profile-avatar-container">
+                                <img id="profile-pic" class="profile-avatar-modern" alt="Profile" />
+                                <label class="avatar-change-btn">
+                                    📷 Change Photo
+                                    <input id="profile-pic-input" type="file" accept="image/*" style="display:none;" />
+                                </label>
+                            </div>
+                        </div>
+                        <form id="profile-form" class="settings-form-modern">
+                            <div class="form-group-modern">
+                                <label for="settings-full-name">Full Name</label>
+                                <input id="settings-full-name" type="text" placeholder="Enter your full name" />
+                            </div>
+                            <div class="form-group-modern">
+                                <label for="settings-username">Username</label>
+                                <input id="settings-username" type="text" disabled placeholder="Username" />
+                            </div>
+                            <div class="form-group-modern">
+                                <label for="settings-email">Email Address</label>
+                                <input id="settings-email" type="email" placeholder="your.email@example.com" />
+                            </div>
+                            <div class="form-group-modern">
+                                <label for="settings-bio">Bio</label>
+                                <textarea id="settings-bio" rows="3" placeholder="Tell us about yourself..."></textarea>
+                            </div>
+                            <button type="submit" class="btn-modern btn-primary-modern">
+                                <span>💾</span> Save Profile
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Account Info Card -->
+                <div class="settings-modern-card account-info-card">
+                    <div class="settings-card-header-modern">
+                        <div class="header-icon">📊</div>
+                        <div>
+                            <h3>Account Information</h3>
+                            <p>Your account status and details</p>
+                        </div>
+                    </div>
+                    <div class="settings-card-body-modern">
+                        <div class="info-grid-modern">
+                            <div class="info-item-modern">
+                                <div class="info-icon">🎭</div>
+                                <div class="info-content">
+                                    <div class="info-label-modern">Role</div>
+                                    <div id="account-role" class="info-value-modern">Admin</div>
+                                </div>
+                            </div>
+                            <div class="info-item-modern">
+                                <div class="info-icon">📅</div>
+                                <div class="info-content">
+                                    <div class="info-label-modern">Member Since</div>
+                                    <div id="account-created" class="info-value-modern">Oct 2025</div>
+                                </div>
+                            </div>
+                            <div class="info-item-modern">
+                                <div class="info-icon">✅</div>
+                                <div class="info-content">
+                                    <div class="info-label-modern">Status</div>
+                                    <div class="status-badge-modern status-active-modern">Active</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Card -->
+                <div class="settings-modern-card password-card-modern">
+                    <div class="settings-card-header-modern">
+                        <div class="header-icon">🔒</div>
+                        <div>
+                            <h3>Security & Password</h3>
+                            <p>Update your password to keep your account secure</p>
+                        </div>
+                    </div>
+                    <div class="settings-card-body-modern">
+                        <form id="password-form" class="settings-form-modern">
+                            <div class="form-group-modern">
+                                <label for="current-password">Current Password</label>
+                                <input id="current-password" name="current-password" type="password" placeholder="Enter current password" />
+                            </div>
+                            <div class="form-group-modern">
+                                <label for="new-password">New Password</label>
+                                <input id="new-password" name="new-password" type="password" placeholder="Enter new password" />
+                            </div>
+                            <div class="form-group-modern">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input id="confirm-password" name="confirm-password" type="password" placeholder="Confirm new password" />
+                            </div>
+                            <button type="submit" class="btn-modern btn-primary-modern">
+                                <span>🔐</span> Update Password
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="/dashboard/static/dashboard-modern.js?v=6"></script>
+</body>
+</html>

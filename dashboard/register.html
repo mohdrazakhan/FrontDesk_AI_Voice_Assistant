@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Frontdesk</title>
+    <link rel="icon" type="image/png" href="/dashboard/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard/static/register.css?v=2.0">
+</head>
+<body>
+    <div class="register-page">
+        <!-- Left Side - Logo and Welcome -->
+        <div class="register-left">
+            <div class="register-brand center-logo">
+                <img src="/dashboard/images/frontdesk.png" alt="Frontdesk Logo" class="brand-logo">
+            </div>
+        </div>
+
+        <!-- Right Side - Register Form -->
+        <div class="register-right">
+            <div class="register-container">
+                <div class="register-header">
+                    <h2 class="form-title">Create Account</h2>
+                    <p class="form-subtitle">Sign up to access the supervisor dashboard</p>
+                </div>
+
+                <div id="alertBox" class="alert" style="display: none;"></div>
+
+                <form id="registerForm" class="register-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Enter your Full Name">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username">Username *</label>
+                            <input type="text" id="username" name="username" required placeholder="Choose a username">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required placeholder="Create a password">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                        </div>
+                    </div>
+
+                    <div class="form-checkbox">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">I agree to the <a href="#" class="terms-link">terms and conditions</a></span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit" id="registerBtn">
+                        <span class="btn-text">Sign Up</span>
+                        <span class="btn-loader" style="display: none;">
+                            <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </span>
+                    </button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Already have an account? <a href="/" class="login-link">Sign in</a></p>
+                </div>
+
+                <div class="signup-notice">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>Your account will be reviewed and approved by an administrator</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/dashboard/static/register.js"></script>
+</body>
+</html>

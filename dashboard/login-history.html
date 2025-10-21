@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login History - Frontdesk Assistant</title>
+    <link rel="stylesheet" href="/dashboard/static/login-history.css?v=1">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <div class="header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.location.href='/dashboard'">
+                <span class="back-icon">←</span>
+                <span>Back to Dashboard</span>
+            </button>
+        </div>
+        <div class="header-center">
+            <h1>Login History</h1>
+        </div>
+        <div class="header-right">
+            <span class="username-display" id="usernameDisplay"></span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-info">
+                    <div class="stat-label">Total Sessions</div>
+                    <div class="stat-value" id="totalSessions">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-info">
+                    <div class="stat-label">Total Time</div>
+                    <div class="stat-value" id="totalTime">0h 0m</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📈</div>
+                <div class="stat-info">
+                    <div class="stat-label">Average Session</div>
+                    <div class="stat-value" id="avgSession">0h 0m</div>
+                </div>
+            </div>
+            <div class="stat-card active-card">
+                <div class="stat-icon">🟢</div>
+                <div class="stat-info">
+                    <div class="stat-label">Active Sessions</div>
+                    <div class="stat-value" id="activeSessions">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline-section">
+            <div class="section-header">
+                <h2>Session Timeline</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All Sessions</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="ended">Ended</button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>Loading session history...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📋</div>
+                <h3>No Session History</h3>
+                <p>Your login sessions will appear here once you start using the dashboard.</p>
+            </div>
+
+            <!-- Timeline Container -->
+            <div class="timeline-container" id="timelineContainer"></div>
+        </div>
+    </div>
+
+    <script src="static/login-history.js?v=1"></script>
+    <script src="/dashboard/static/login-history.js?v=1"></script>
+</body>
+</html>
