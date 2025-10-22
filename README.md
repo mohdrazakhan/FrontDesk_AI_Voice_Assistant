@@ -44,6 +44,40 @@ graph LR
 
 ---
 
+## 🧭 Project Explanation
+
+FrontDesk AI replaces the human front desk for common queries and forwards the tough ones to a supervisor fast. It’s designed for small teams and businesses who want 24/7 phone support without hiring a large staff.
+
+### How it works (end‑to‑end)
+1. Caller speaks with the AI over LiveKit.
+2. The AI uses Gemini and the Knowledge Base to answer.
+3. If confidence is low, the request is escalated to a supervisor via the web dashboard.
+4. Supervisor replies; the AI delivers the answer back to the caller and learns for next time.
+
+### Main components
+- Backend (Flask) — REST API, auth, analytics, KB CRUD. File: `app.py`
+- Voice Agent — Runs the call loop and connects to LiveKit/Gemini. File: `agent.py`
+- Database — SQLite schema and init script. File: `database.py` (creates `database.db`)
+- Dashboard — HTML/CSS/JS in `dashboard/` (Chart.js visualizations, KB editor, requests)
+
+### Data stored
+- Users and roles (Admin, Supervisor)
+- Knowledge base Q/A entries
+- Help requests and answers
+- Activity metrics used for charts
+
+### Roles and access
+- Admin: manage supervisors, view all analytics, configure system
+- Supervisor: answer escalations, manage knowledge base
+
+### File map (quick glance)
+- `app.py` — Flask routes, auth/session, KB/requests APIs
+- `agent.py` — Voice agent lifecycle and connectors
+- `database.py` — Table creation and basic seed/init
+- `dashboard/` — `index.html`, `static/dashboard.js|css`, `login.html`, `register.html`
+
+---
+
 ## ✨ Features
 
 - 🎙️ Natural voice conversations (LiveKit + Gemini)
