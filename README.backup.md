@@ -1,1354 +1,678 @@
-<div align="center"># 🎙️ FrontDesk AI Voice Assistant
+# 🎙️ FrontDesk AI Voice Assistant
 
 
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=200&section=header&text=FrontDesk%20AI&fontSize=80&fontAlignY=35&animation=twinkling&desc=Your%2024/7%20Intelligent%20Voice%20Receptionist&descAlignY=55&descSize=18"/>
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=2800&pause=2000&color=6366F1&center=true&vCenter=true&width=940&lines=Intelligent+AI-Powered+Receptionist;Real-Time+Voice+Conversations;Seamless+Human+Escalation;Built+with+LiveKit+%26+Gemini" alt="Typing SVG" /><div align="center">
 
 
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=3000&pause=1000&color=6366F1&center=true&vCenter=true&width=600&lines=AI-Powered+Voice+Assistant;Real-Time+Human+Escalation;Built+with+LiveKit+%26+Gemini;24%2F7+Customer+Support" alt="Typing SVG" /><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=32&duration=2800&pause=2000&color=6366F1&center=true&vCenter=true&width=940&lines=Intelligent+AI-Powered+Receptionist;Real-Time+Voice+Conversations;Seamless+Human+Escalation;Built+with+LiveKit+%26+Gemini" alt="Typing SVG" /><div align="center">
+<p align="center">
 
+  <img src="https://img.shields.io/badge/version-2.0.0-6366f1?style=for-the-badge&logo=semantic-release" alt="Version"/>
 
+  <img src="https://img.shields.io/badge/python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)A production-ready, voice-native front desk agent built with LiveKit and Google Gemini. When the AI can't confidently answer, it escalates to a human supervisor via a web dashboard and relays the supervisor's answer back to the caller in real time.
 
-<br/>
-
-
-
-<p align="center"><p align="center">
-
-  <img src="https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge&logo=semantic-release&logoColor=white" alt="version"/>
-
-  <img src="https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="python"/>  <img src="https://img.shields.io/badge/version-2.0.0-6366f1?style=for-the-badge&logo=semantic-release" alt="Version"/>
-
-  <img src="https://img.shields.io/badge/Flask-3.0+-000000?style=for-the-badge&logo=flask&logoColor=white" alt="flask"/>
-
-  <img src="https://img.shields.io/badge/LiveKit-Voice-FF5E5B?style=for-the-badge&logo=livekit&logoColor=white" alt="livekit"/>  <img src="https://img.shields.io/badge/python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)A production-ready, voice-native front desk agent built with LiveKit and Google Gemini. When the AI can't confidently answer, it escalates to a human supervisor via a web dashboard and relays the supervisor's answer back to the caller in real time.
-
-  <img src="https://img.shields.io/badge/Gemini-2.0-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="gemini"/>
-
-  <img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge" alt="license"/>  <img src="https://img.shields.io/badge/Flask-3.0+-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
-
-</p>
+  <img src="https://img.shields.io/badge/Flask-3.0+-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask"/>
 
   <img src="https://img.shields.io/badge/LiveKit-Voice-FF5E5B?style=for-the-badge&logo=livekit&logoColor=white" alt="LiveKit"/>[![Python](https://img.shields.io/badge/python-3.13+-green.svg)](https://www.python.org/)
 
-<h3>🌟 Transform Your Customer Service with AI 🌟</h3>
-
   <img src="https://img.shields.io/badge/Gemini-2.0-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Gemini"/>
 
-<p align="center">
-
-  <a href="#-overview">Overview</a> •  <img src="https://img.shields.io/badge/license-MIT-success?style=for-the-badge" alt="License"/>[![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
-
-  <a href="#-features">Features</a> •
-
-  <a href="#-quick-start">Quick Start</a> •</p>
-
-  <a href="#-dashboard">Dashboard</a> •
-
-  <a href="#-api">API</a>[![LiveKit](https://img.shields.io/badge/LiveKit-Voice%20Agent-orange.svg)](https://livekit.io/)
+  <img src="https://img.shields.io/badge/license-MIT-success?style=for-the-badge" alt="License"/>[![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
 
 </p>
 
-<p align="center">
+[![LiveKit](https://img.shields.io/badge/LiveKit-Voice%20Agent-orange.svg)](https://livekit.io/)
 
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+<p align="center">
 
   <strong>Transform your customer service with an AI receptionist that never sleeps 🌙</strong>[![Gemini](https://img.shields.io/badge/Google-Gemini%202.0-4285F4.svg)](https://ai.google.dev/)
 
-</div>
-
 </p>
-
----
 
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)- Voice-only agent using Gemini Multimodal Live API
 
-## 🌟 Overview
-
 <p align="center">
-
-**FrontDesk AI** is an intelligent voice assistant that handles customer calls 24/7. Powered by **Google Gemini 2.0** and **LiveKit**, it answers questions naturally and escalates complex queries to supervisors in real-time.
 
   <a href="#-features">Features</a> •- Automatic greeting on connect
 
-<div align="center">
-
   <a href="#-quick-start">Quick Start</a> •
 
-```mermaid
+  <a href="#-dashboard">Dashboard</a> •An intelligent AI-powered front desk assistant that handles customer inquiries through voice interactions. When the AI encounters questions it cannot answer confidently, it seamlessly escalates to human supervisors through a modern web dashboard.- Mandatory supervisor escalation for appointments
 
-graph LR  <a href="#-dashboard">Dashboard</a> •An intelligent AI-powered front desk assistant that handles customer inquiries through voice interactions. When the AI encounters questions it cannot answer confidently, it seamlessly escalates to human supervisors through a modern web dashboard.- Mandatory supervisor escalation for appointments
+  <a href="#-documentation">Documentation</a> •
 
-    A[📞 Customer Call] -->|Voice| B[🤖 AI Agent]
+  <a href="#-demo">Demo</a>- Real-time supervisor answer delivery (≈3s)
 
-    B -->|Knows Answer| C[✅ Instant Response]  <a href="#-documentation">Documentation</a> •
+</p>
 
-    B -->|Needs Help| D[👨‍💼 Supervisor]
+[Features](#-features) • [Quick Start](#-quick-start) • [Dashboard](#-supervisor-dashboard) • [API Reference](#-api-endpoints)- Supervisor dashboard with analytics and knowledge base
 
-    D -->|Answers| B  <a href="#-demo">Demo</a>- Real-time supervisor answer delivery (≈3s)
-
-    B -->|Delivers| A
-
-    </p>
-
-    style A fill:#667eea,stroke:#764ba2,color:#fff
-
-    style B fill:#f093fb,stroke:#f5576c,color:#fff[Features](#-features) • [Quick Start](#-quick-start) • [Dashboard](#-supervisor-dashboard) • [API Reference](#-api-endpoints)- Supervisor dashboard with analytics and knowledge base
-
-    style C fill:#4facfe,stroke:#00f2fe,color:#fff
-
-    style D fill:#43e97b,stroke:#38f9d7,color:#fff---
-
-```
+---
 
 - **Browser notifications for new escalations** (supervisors get instant browser alerts)
 
-</div>
-
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
-
-### 💡 Key Benefits
 
 </div>- **Database normalization script** (`scripts/normalize_status.py`) to update legacy status values
 
-<table>
-
-<tr></div>
-
-<td width="50%">
+</div>
 
 - **Improved dashboard error handling** (user-friendly toasts for failed API calls)
 
-**🚀 For Business**
+## 🌟 Overview
 
-- ✅ 24/7 availability## 🌟 Overview
+---- **Comprehensive backend logging** (all errors and key events logged to file)
 
-- ✅ Handle unlimited calls
-
-- ✅ Reduce costs by 60%---- **Comprehensive backend logging** (all errors and key events logged to file)
-
-- ✅ Instant responses
-
-- ✅ Auto-learning system**FrontDesk AI Voice Assistant** is a next-generation, production-ready voice agent that revolutionizes how businesses handle customer inquiries. Powered by **Google Gemini 2.0 Multimodal Live API** and **LiveKit's** cutting-edge voice infrastructure, it delivers natural, human-like conversations with customers 24/7.
+**FrontDesk AI Voice Assistant** is a next-generation, production-ready voice agent that revolutionizes how businesses handle customer inquiries. Powered by **Google Gemini 2.0 Multimodal Live API** and **LiveKit's** cutting-edge voice infrastructure, it delivers natural, human-like conversations with customers 24/7.
 
 
-
-</td>
-
-<td width="50%">
 
 <div align="center">
 
-**💼 For Teams**
+## 📋 Table of Contents
 
-- ✅ Modern dashboard## 📋 Table of Contents
+```mermaid
 
-- ✅ Real-time alerts
+graph LR
 
-- ✅ Smart escalation```mermaid
+    A[👤 Customer] -->|Voice Call| B[🤖 AI Agent]
 
-- ✅ Performance analytics
+    B -->|Can Answer| C[📚 Knowledge Base]- [Overview](#-overview)## Quick Start
 
-- ✅ Easy managementgraph LR
+    B -->|Needs Help| D[👨‍💼 Supervisor Dashboard]
 
+    D -->|Answer| B- [Key Features](#-key-features)
 
+    B -->|Response| A
 
-</td>    A[👤 Customer] -->|Voice Call| B[🤖 AI Agent]
+    C -->|Info| B- [Technology Stack](#-technology-stack)
 
-</tr>
+    
 
-</table>    B -->|Can Answer| C[📚 Knowledge Base]- [Overview](#-overview)## Quick Start
+    style A fill:#667eea,stroke:#764ba2,stroke-width:2px,color:#fff- [Prerequisites](#-prerequisites)
 
+    style B fill:#f093fb,stroke:#f5576c,stroke-width:2px,color:#fff
 
+    style C fill:#4facfe,stroke:#00f2fe,stroke-width:2px,color:#fff- [Installation & Setup](#-installation--setup)1) Setup environment[![Python](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/)
 
----    B -->|Needs Help| D[👨‍💼 Supervisor Dashboard]
+    style D fill:#43e97b,stroke:#38f9d7,stroke-width:2px,color:#fff
 
-
-
-## ✨ Features    D -->|Answer| B- [Key Features](#-key-features)
-
-
-
-<div align="center">    B -->|Response| A
+```- [Running the Application](#-running-the-application)
 
 
 
-<img src="https://user-images.githubusercontent.com/74038190/212284158-e840e285-664b-44d7-b79b-e264b5e54825.gif" width="400">    C -->|Info| B- [Technology Stack](#-technology-stack)
+</div>- [Supervisor Dashboard](#-supervisor-dashboard)```bash
 
 
 
-### **Core Capabilities**    
+### 🎯 Why Choose FrontDesk AI?- [Features & Functionality](#-features--functionality)
 
 
 
-</div>    style A fill:#667eea,stroke:#764ba2,stroke-width:2px,color:#fff- [Prerequisites](#-prerequisites)
-
-
-
-<table>    style B fill:#f093fb,stroke:#f5576c,stroke-width:2px,color:#fff
+<table>- [Project Structure](#-project-structure)python3 -m venv venv[![LiveKit](https://img.shields.io/badge/LiveKit-Voice%20Agents-orange.svg)](https://livekit.io/)
 
 <tr>
 
-<td align="center" width="33%">    style C fill:#4facfe,stroke:#00f2fe,stroke-width:2px,color:#fff- [Installation & Setup](#-installation--setup)1) Setup environment[![Python](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/)
+<td width="50%">- [API Endpoints](#-api-endpoints)
 
-<img src="https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png" width="100"/>
 
-<h3>🎙️ Voice AI</h3>    style D fill:#43e97b,stroke:#38f9d7,stroke-width:2px,color:#fff
 
-<p>
+#### 🚀 **For Businesses**- [Configuration](#-configuration)source venv/bin/activate
 
-• Natural conversations<br/>```- [Running the Application](#-running-the-application)
+- ✅ **24/7 Availability** - Never miss a customer
 
-• Auto greeting<br/>
+- ✅ **Cost Effective** - Reduce staffing costs by 60%- [Troubleshooting](#-troubleshooting)
 
-• Context awareness<br/>
+- ✅ **Instant Response** - No more hold times
 
-• Multi-language support<br/>
+- ✅ **Scalable** - Handle unlimited calls simultaneouslypip install -r requirements.txt[![Gemini](https://img.shields.io/badge/Google-Gemini%202.0-4285F4.svg)](https://ai.google.dev/)![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)<div align="center">This project implements an AI-powered front desk agent using LiveKit that can answer customer questions. When the AI doesn't know an answer, it escalates to a human supervisor through a modern, professional web dashboard.
 
-• Voice activity detection</div>- [Supervisor Dashboard](#-supervisor-dashboard)```bash
+- ✅ **Smart Learning** - Gets better over time
 
-</p>
+---
 
 </td>
 
-<td align="center" width="33%">
+<td width="50%">cp .env.example .env
 
-<img src="https://user-images.githubusercontent.com/74038190/235224431-e8c8c12e-6826-47f1-89fb-2ddad83b3abf.gif" width="100"/>### 🎯 Why Choose FrontDesk AI?- [Features & Functionality](#-features--functionality)
 
-<h3>📊 Dashboard</h3>
 
-<p>
+#### 💼 **For Teams**## 🌟 Overview
 
-• Live statistics<br/>
+- ✅ **Modern Dashboard** - Beautiful, intuitive UI
 
-• Visual charts<br/><table>- [Project Structure](#-project-structure)python3 -m venv venv[![LiveKit](https://img.shields.io/badge/LiveKit-Voice%20Agents-orange.svg)](https://livekit.io/)
+- ✅ **Real-Time Alerts** - Instant notifications```[![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
 
-• Request management<br/>
+- ✅ **Smart Escalation** - Only handle complex queries
 
-• Knowledge base<br/><tr>
+- ✅ **Analytics** - Track performance metricsFrontDesk AI Voice Assistant is a production-ready voice agent that serves as an intelligent receptionist for businesses. Built with LiveKit Agents and Google's Gemini Multimodal Live API, it can handle customer inquiries, book appointments, and answer common questions - all through natural voice conversations.
 
-• User management
+- ✅ **Role Management** - Admin & supervisor roles
 
-</p><td width="50%">- [API Endpoints](#-api-endpoints)
+Edit `.env` with your keys:
 
 </td>
 
-<td align="center" width="33%">
-
-<img src="https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png" width="100"/>
-
-<h3>🔐 Security</h3>#### 🚀 **For Businesses**- [Configuration](#-configuration)source venv/bin/activate
-
-<p>
-
-• Role-based access<br/>- ✅ **24/7 Availability** - Never miss a customer
-
-• Encrypted sessions<br/>
-
-• Admin approval<br/>- ✅ **Cost Effective** - Reduce staffing costs by 60%- [Troubleshooting](#-troubleshooting)
-
-• Audit logs<br/>
-
-• Secure authentication- ✅ **Instant Response** - No more hold times
-
-</p>
-
-</td>- ✅ **Scalable** - Handle unlimited calls simultaneouslypip install -r requirements.txt[![Gemini](https://img.shields.io/badge/Google-Gemini%202.0-4285F4.svg)](https://ai.google.dev/)![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)<div align="center">This project implements an AI-powered front desk agent using LiveKit that can answer customer questions. When the AI doesn't know an answer, it escalates to a human supervisor through a modern, professional web dashboard.
-
-</tr>
-
-</table>- ✅ **Smart Learning** - Gets better over time
-
-
-
-### 🎯 How It Works---
-
-
-
-<div align="center"></td>
-
-
-
-```mermaid<td width="50%">cp .env.example .env
-
-sequenceDiagram
-
-    participant C as 👤 Customer
-
-    participant AI as 🤖 AI Agent
-
-    participant KB as 📚 Knowledge Base#### 💼 **For Teams**## 🌟 Overview
-
-    participant S as 👨‍💼 Supervisor
-
-    - ✅ **Modern Dashboard** - Beautiful, intuitive UI
-
-    C->>AI: Call & Ask Question
-
-    AI->>KB: Search Answer- ✅ **Real-Time Alerts** - Instant notifications```[![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
-
-    alt Found in KB
-
-        KB->>AI: Return Answer- ✅ **Smart Escalation** - Only handle complex queries
-
-        AI->>C: Respond
-
-    else Not Found- ✅ **Analytics** - Track performance metricsFrontDesk AI Voice Assistant is a production-ready voice agent that serves as an intelligent receptionist for businesses. Built with LiveKit Agents and Google's Gemini Multimodal Live API, it can handle customer inquiries, book appointments, and answer common questions - all through natural voice conversations.
-
-        AI->>S: Escalate
-
-        S->>AI: Provide Answer- ✅ **Role Management** - Admin & supervisor roles
-
-        AI->>KB: Learn & Save
-
-        AI->>C: Deliver AnswerEdit `.env` with your keys:
-
-    end
-
-```</td>
-
-
-
-</div></tr>When the AI doesn't know the answer or needs human verification (like appointment bookings), it automatically escalates to supervisors who can respond through a real-time web dashboard. The supervisor's answer is then relayed back to the customer within seconds.
-
-
-
----</table>
-
-
-
-## 🛠️ Tech Stack```[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)![Python](https://img.shields.io/badge/python-3.13+-green.svg)
-
-
-
-<div align="center">---
-
-
-
-<table>---
-
-<tr>
-
-<td align="center"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" width="50"/><br/><b>Python</b></td>## ✨ Features
-
-<td align="center"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/flask/flask-original.svg" width="50"/><br/><b>Flask</b></td>
-
-<td align="center"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg" width="50"/><br/><b>SQLite</b></td>LIVEKIT_URL=wss://<your>.livekit.cloud
-
-<td align="center"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="50"/><br/><b>JavaScript</b></td>
-
-<td align="center"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" width="50"/><br/><b>HTML5</b></td><div align="center">
-
-</tr>
-
-</table>## ✨ Key Features
-
-
-
-<img src="https://user-images.githubusercontent.com/74038190/212257472-08e52665-c503-4bd9-aa20-f5a4dae769b5.gif" width="100"/> ### 🎨 **Feature Showcase**
-
-<img src="https://user-images.githubusercontent.com/74038190/212257468-1e9a91f1-b626-4baa-b15d-5c385dfa7ed2.gif" width="100"/> 
-
-<img src="https://user-images.githubusercontent.com/74038190/212257465-7ce8d493-cac5-494e-982a-5a9deb852c4b.gif" width="100"/>LIVEKIT_API_KEY=...
-
-
-
-**LiveKit** • **Google Gemini 2.0** • **Chart.js**<table>
-
-
-
-</div><tr>### 🤖 AI Voice Agent
-
-
-
----<td align="center" width="33%">
-
-
-
-## 📋 Prerequisites<img src="https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png" width="80" />- **Natural Voice Interactions** - Powered by Google Gemini 2.0 Multimodal Live APILIVEKIT_API_SECRET=...
-
-
-
-```bash<h3>🤖 AI Voice Agent</h3>
-
-✅ Python 3.13+
-
-✅ pip package manager<p align="left">- **Real-time Conversations** - Low-latency voice processing through LiveKit
-
-✅ Git
-
-✅ LiveKit account (https://livekit.io)• Natural voice conversations<br>
-
-✅ Google Gemini API key (https://ai.google.dev)
-
-```• Low-latency responses<br>- **Smart Knowledge Base** - Learns from previous interactions and supervisor answersGOOGLE_API_KEY=...[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Dashboard](#-supervisor-dashboard) • [API](#-api-reference)![LiveKit](https://img.shields.io/badge/LiveKit-Voice%20Agent-orange.svg)
-
-
-
----• Multi-language support<br>
-
-
-
-## 🚀 Quick Start• Context awareness<br>- **Auto-Escalation** - Automatically routes complex queries to human supervisors
-
-
-
-<div align="center">• Auto-escalation logic
-
-<img src="https://user-images.githubusercontent.com/74038190/212284136-03988914-d899-44b4-b1d9-4eeccf656e44.gif" width="500">
-
-</div></p>- **Mandatory Escalation** - Appointment requests always require supervisor approvalFLASK_SECRET_KEY=change-me
-
-
-
-### 1️⃣ Clone Repository</td>
-
-
-
-```bash<td align="center" width="33%">
-
-git clone https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant.git
-
-cd FrontDesk_AI_Voice_Assistant/frontdesk_project<img src="https://user-images.githubusercontent.com/74038190/235224431-e8c8c12e-6826-47f1-89fb-2ddad83b3abf.gif" width="80" />
-
-```
-
-<h3>📊 Analytics Dashboard</h3>### 👥 Supervisor Dashboard```
-
-### 2️⃣ Setup Environment
-
-<p align="left">
-
-<table>
-
-<tr>• Real-time statistics<br>- **Modern, Responsive UI** - Clean, professional interface accessible on all devices
-
-<td width="50%">
-
-• Visual charts & graphs<br>
-
-**macOS/Linux** 🐧
-
-```bash• Performance tracking<br>- **Real-time Request Monitoring** - Live updates for new escalated questions
-
-python3 -m venv venv
-
-source venv/bin/activate• Activity logs<br>
-
-pip install -r requirements.txt
-
-```• Export reports- **Browser Notifications** - Instant alerts for new customer requests
-
-
-
-</td></p>
-
-<td width="50%">
-
-</td>- **Knowledge Base Management** - Add, edit, and delete Q&A entries2) Initialize database</div>![Google Gemini](https://img.shields.io/badge/Google-Gemini%202.0-4285F4.svg)
-
-**Windows** 🪟
-
-```bash<td align="center" width="33%">
-
-python -m venv venv
-
-venv\Scripts\activate<img src="https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png" width="80" />- **User Management** - Admin can approve/reject supervisor registration requests
-
-pip install -r requirements.txt
-
-```<h3>🔐 Secure & Scalable</h3>
-
-
-
-</td><p align="left">- **Analytics & Reporting** - Track resolution rates, active time, and performance metrics```bash
-
-</tr>
-
-</table>• Role-based access<br>
-
-
-
-### 3️⃣ Configure Environment• Encrypted sessions<br>- **Role-based Access Control** - Separate admin and supervisor permissions
-
-
-
-```bash• Admin approval flow<br>
-
-cp .env.example .env
-
-```• Audit trails<br>python database.py
-
-
-
-Edit `.env` with your credentials:• Cloud-ready
-
-
-
-```env</p>### 📊 Analytics & Insights
-
-LIVEKIT_URL=wss://your-project.livekit.cloud
-
-LIVEKIT_API_KEY=your_api_key</td>
-
-LIVEKIT_API_SECRET=your_api_secret
-
-GOOGLE_API_KEY=your_gemini_api_key</tr>- **Question Status Tracking** - Visual charts for solved vs. unresolved queries```
-
-FLASK_SECRET_KEY=your_secret_key
-
-```</table>
-
-
-
-### 4️⃣ Initialize Database- **User Activity Logs** - Monitor supervisor active time and engagement
-
-
-
-```bash</div>
-
-python database.py
-
-```- **Performance Metrics** - Dashboard stats including total, pending, and personal solved counts---![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)## ✨ Features
-
-
-
-### 5️⃣ Launch Application### 🎯 **Core Capabilities**
-
-
-
-<table>- **Recent Questions Display** - Quick access to latest escalations
-
-<tr>
-
-<td width="50%"><details open>
-
-
-
-**Terminal 1: Dashboard** 🖥️<summary><b>🤖 AI Voice Agent Features</b></summary>3) Run
-
-```bash
-
-python app.py<br>
-
-```
-
-🌐 **http://127.0.0.1:5001**### 🔐 Security & Authentication
-
-
-
-</td>| Feature | Description | Status |
-
-<td width="50%">
-
-|---------|-------------|--------|- **Secure Login System** - Session-based authentication- Voice agent
-
-**Terminal 2: Voice Agent** 🎙️
-
-```bash| 🎤 **Natural Voice** | Powered by Google Gemini 2.0 Multimodal Live | ✅ Active |
-
-python agent.py dev
-
-```| ⚡ **Real-time Processing** | Ultra-low latency through LiveKit | ✅ Active |- **Password Protection** - Hashed password storage
-
-✅ **Agent Connected**
-
-| 🧠 **Smart Knowledge Base** | Learns from supervisor answers | ✅ Active |
-
-</td>
-
-</tr>| 🔄 **Auto-Escalation** | Routes complex queries to humans | ✅ Active |- **User Registration Workflow** - Admin approval required for new supervisors```bash
+</tr>When the AI doesn't know the answer or needs human verification (like appointment bookings), it automatically escalates to supervisors who can respond through a real-time web dashboard. The supervisor's answer is then relayed back to the customer within seconds.
 
 </table>
 
-| 📅 **Appointment Booking** | Mandatory supervisor approval | ✅ Active |
-
-### 6️⃣ Login
-
-| 🌍 **Multi-language** | Supports multiple languages | 🔜 Coming Soon |- **Protected Routes** - Login required for dashboard access
-
-<div align="center">
-
-
-
-| Role | Username | Password |
-
-|------|----------|----------|</details>- **Admin-only Features** - Supervisor management restricted to adminspython agent_voice.py start## 🌟 Overview
-
-| 👑 **Admin** | `admin` | `admin123` |
-
-| 👨‍💼 **Supervisor** | `supervisor` | `super123` |
-
-
-
-<sub>⚠️ Change passwords after first login!</sub><details open>
-
-
-
-<img src="https://user-images.githubusercontent.com/74038190/216120974-24a76b31-7f39-41f1-a38f-b3c1377cc612.png" width="300"/><summary><b>👨‍💼 Supervisor Dashboard Features</b></summary>
-
-
-
-</div><br>---```
-
-
+```[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)![Python](https://img.shields.io/badge/python-3.13+-green.svg)
 
 ---
 
-
-
-## 🎨 Dashboard| Feature | Description | Status |
-
-
-
-<div align="center">|---------|-------------|--------|
-
-
-
-<img src="https://user-images.githubusercontent.com/74038190/213760697-1dc03683-ba49-42f5-a9f0-c9f3b8f6f9c4.gif" width="600">| 🎨 **Modern UI/UX** | Beautiful, responsive design | ✅ Active |## 🛠️ Technology Stack- Dashboard
-
-
-
-### **Five Powerful Pages**| 🔔 **Browser Notifications** | Instant alerts for new requests | ✅ Active |
-
-
-
-</div>| 📚 **Knowledge Management** | Add, Edit, Delete Q&A entries | ✅ Active |
-
-
-
-<details open>| 👥 **User Management** | Approve/reject supervisor requests | ✅ Active |
-
-<summary><h3>🏠 Dashboard</h3></summary>
-
-| 📊 **Analytics & Charts** | Visual performance metrics | ✅ Active |### Backend```bash
-
-**Command Center**
-
-- 📊 Overview stats (total, pending, resolved)| 🔍 **Advanced Search** | Filter and find requests quickly | ✅ Active |
-
-- 📈 Visual charts with Chart.js
-
-- ⏱️ Active time tracking- **Python 3.13+** - Core programming language
-
-- 🆕 Recent questions feed
-
-- 🕐 Session timer</details>
-
-
-
-</details>- **Flask 3.0+** - Web framework for dashboard and APIpython app.py**FrontDesk AI Voice Assistant** is an enterprise-grade voice AI system that handles customer inquiries through natural conversation. Built on **LiveKit's real-time communication platform** and powered by **Google Gemini 2.0 Flash Multimodal Live API**, it seamlessly escalates complex questions to human supervisors.**An intelligent voice assistant powered by Google Gemini AI with real-time supervisor escalation**![Python](https://img.shields.io/badge/python-3.13+-green.svg)
-
-
-
-<details><details>
-
-<summary><h3>📋 Requests</h3></summary>
-
-<summary><b>🔐 Security & Access Control</b></summary>- **SQLite** - Lightweight database for storing requests, users, and knowledge base
-
-**Manage Customer Queries**
-
-- 🎴 Beautiful card grid<br>
-
-- 🔍 Search & filter
-
-- ⚡ Quick answer- **LiveKit Agents** - Voice agent framework```
-
-- 🔖 Bookmark feature
-
-- 🏷️ Status badges- ✅ **Session-based Authentication** - Secure login/logout
-
-
-
-</details>- ✅ **Password Hashing** - Encrypted password storage- **Google Gemini 2.0** - Multimodal AI for natural language processing
-
-
-
-<details>- ✅ **Role-based Access** - Admin vs Supervisor permissions
-
-<summary><h3>📚 Knowledge Base</h3></summary>
-
-- ✅ **Protected Routes** - Login required for dashboardDashboard: http://localhost:5000 (default admin: admin / admin123)
-
-**AI Training Center**
-
-- ➕ Add new Q&A- ✅ **Admin Approval** - New users require approval
-
-- ✏️ Edit entries
-
-- 🗑️ Delete outdated info- ✅ **Audit Logging** - Track all user actions### Frontend
-
-- 🔍 Search functionality
-
-- 📊 Entry statistics
-
-
-
-</details></details>- **Vanilla JavaScript** - No heavy frameworks, fast and lightweightUse LiveKit Agents Playground to connect to the voice agent.
-
-
-
-<details>
-
-<summary><h3>👥 Supervisors (Admin)</h3></summary>
-
----- **Chart.js** - Interactive data visualizations
-
-**Team Management**
-
-- ✅ Approve new users
-
-- ❌ Reject requests
-
-- 👁️ View all supervisors## 🛠️ Technology Stack- **Modern CSS** - Responsive design with custom animations### Why This Project?
-
-- ➕ Add manually
-
-- 📊 Track status
-
-
-
-</details><div align="center">- **HTML5** - Semantic markup
-
-
-
-<details>
-
-<summary><h3>⚙️ Settings</h3></summary>
-
-### **Built with Industry-Leading Technologies**
-
-**Personal Profile**
-
-- 👤 Update info
-
-- 🔒 Change password
-
-- 🖼️ Upload avatar<table>### Infrastructure## Quick Start
-
-- 📧 Contact details
-
-- 🔔 Notifications<tr>
-
-
-
-</details><td align="center" width="20%">- **LiveKit Cloud** - Voice streaming and agent hosting
-
-
-
----<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" width="60" />
-
-
-
-## 📁 Project Structure<br><strong>Python 3.13+</strong>- **WebSockets** - Real-time communication1) Setup environment
-
-
-
-```</td>
-
-frontdesk_project/
-
-│<td align="center" width="20%">- **RESTful API** - Clean, documented endpoints
-
-├── 🐍 app.py                    # Flask API & routes
-
-├── 🎙️ agent.py                  # Voice agent logic<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/flask/flask-original.svg" width="60" />
-
-├── 💾 database.py               # Database schema
-
-├── 📦 requirements.txt          # Dependencies<br><strong>Flask 3.0+</strong>```bash
-
-├── 🔐 .env                      # Config (create from .env.example)
-
-│</td>
-
-├── 📱 dashboard/                # Frontend
-
-│   ├── index.html              # Main dashboard<td align="center" width="20%">---python3 -m venv venv
-
-│   ├── login.html              # Login page
-
-│   ├── register.html           # Registration<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg" width="60" />
-
-│   │
-
-│   ├── static/                 # CSS & JS<br><strong>SQLite</strong>source venv/bin/activate
-
-│   │   ├── dashboard.js
-
-│   │   ├── dashboard.css</td>
-
-│   │   └── ...
-
-│   │<td align="center" width="20%">## 📋 Prerequisitespip install -r requirements.txt
-
-│   └── images/                 # Assets
-
-│       └── frontdesk.png<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="60" />
-
-│
-
-└── 💾 database.db              # SQLite (auto-generated)<br><strong>JavaScript</strong>cp .env.example .env
-
-```
-
-</td>
-
 ---
 
-<td align="center" width="20%">Before you begin, ensure you have the following installed:```
+## ✨ Features
 
-## 🔌 API Reference
-
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" width="60" />
+LIVEKIT_URL=wss://<your>.livekit.cloud
 
 <div align="center">
 
-<br><strong>HTML5/CSS3</strong>
+## ✨ Key Features
 
-### **RESTful Endpoints**
+### 🎨 **Feature Showcase**
 
-</td>
-
-</div>
-
-</tr>- **Python 3.13 or higher** - [Download Python](https://www.python.org/downloads/)Edit `.env` with your keys:
-
-<details>
-
-<summary><b>🔐 Authentication</b></summary></table>
-
-
-
-| Method | Endpoint | Description |- **pip** - Python package installer (included with Python)
-
-|--------|----------|-------------|
-
-| POST | `/login` | User login |<table>
-
-| POST | `/register` | New supervisor |
-
-| GET | `/logout` | User logout |<tr>- **Git** - Version control system```env
-
-| GET | `/check-auth` | Verify session |
-
-<td align="center" width="33%">
-
-</details>
-
-<img src="https://user-images.githubusercontent.com/74038190/212257472-08e52665-c503-4bd9-aa20-f5a4dae769b5.gif" width="80" />- **LiveKit Account** - [Sign up at LiveKit](https://livekit.io/)LIVEKIT_URL=wss://<your>.livekit.cloud
-
-<details>
-
-<summary><b>📋 Requests</b></summary><br><strong>LiveKit Agents</strong>
-
-
-
-| Method | Endpoint | Description |<br><sub>Voice Infrastructure</sub>- **Google AI Account** - [Get Gemini API Key](https://ai.google.dev/)LIVEKIT_API_KEY=...
-
-|--------|----------|-------------|
-
-| GET | `/requests` | Get all requests |</td>
-
-| POST | `/answer_request` | Submit answer |
-
-| POST | `/bookmarks` | Bookmark request |<td align="center" width="33%">LIVEKIT_API_SECRET=...
-
-
-
-</details><img src="https://user-images.githubusercontent.com/74038190/212257468-1e9a91f1-b626-4baa-b15d-5c385dfa7ed2.gif" width="80" />
-
-
-
-<details><br><strong>Google Gemini 2.0</strong>---GOOGLE_API_KEY=...
-
-<summary><b>📚 Knowledge Base</b></summary>
-
-<br><sub>AI & ML</sub>
-
-| Method | Endpoint | Description |
-
-|--------|----------|-------------|</td>FLASK_SECRET_KEY=change-me
-
-| GET | `/knowledge_base` | Get entries |
-
-| POST | `/knowledge_base/add` | Add entry |<td align="center" width="33%">
-
-| PUT | `/knowledge_base/<id>` | Update entry |
-
-| DELETE | `/knowledge_base/<id>` | Delete entry |<img src="https://user-images.githubusercontent.com/74038190/212257465-7ce8d493-cac5-494e-982a-5a9deb852c4b.gif" width="80" />## 🚀 Installation & Setup```
-
-
-
-</details><br><strong>Chart.js</strong>
-
-
-
-<details><br><sub>Data Visualization</sub>
-
-<summary><b>👥 Users (Admin)</b></summary>
-
-</td>
-
-| Method | Endpoint | Description |
-
-|--------|----------|-------------|</tr>### 1. Clone the Repository2) Initialize database
-
-| GET | `/supervisors` | List all |
-
-| POST | `/supervisors/add` | Add new |</table>
-
-| POST | `/supervisors/approve/<id>` | Approve |
-
-| POST | `/supervisors/reject/<id>` | Reject |
-
-
-
-</details></div>
-
-
-
----```bash```bash
-
-
-
-## ⚙️ Configuration---
-
-
-
-<div align="center">git clone https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant.gitpython database.py
-
-<img src="https://user-images.githubusercontent.com/74038190/212284087-bbe7e430-757e-4901-90bf-4cd2ce3e1852.gif" width="400">
-
-</div>## 📋 Prerequisites
-
-
-
-### 🎙️ LiveKit Setupcd FrontDesk_AI_Voice_Assistant/frontdesk_project```
-
-
-
-1. Create account at [livekit.io](https://livekit.io)<div align="center">
-
-2. Create new project
-
-3. Copy URL, API Key, and Secret```
-
-4. Add to `.env` file
-
-### **Before You Begin** 🚦
-
-### 🤖 Gemini Setup
-
-3) (Optional) Normalize legacy status values in help_requests (if upgrading from older version):
-
-1. Get API key from [Google AI Studio](https://ai.google.dev)
-
-2. Add to `.env` as `GOOGLE_API_KEY`</div>
-
-
-
----### 2. Create Virtual Environment
-
-
-
-## 🐛 Troubleshooting```bash
-
-
-
-<div align="center"># Required Software```bash
-
-<img src="https://user-images.githubusercontent.com/74038190/212281775-b468df30-4edc-4bf8-a4ee-f52e1aaddc86.gif" width="400">
-
-</div>✅ Python 3.13 or higher
-
-
-
-<details>✅ pip (Python package manager)```bashpython scripts/normalize_status.py
-
-<summary><b>⚠️ Port Already in Use</b></summary>
-
-✅ Git
-
-```bash
-
-# Kill process on port 5001✅ Modern web browser (Chrome, Firefox, Safari, Edge)# Create virtual environment```
-
-lsof -ti:5001 | xargs kill -9
-
-
-
-# Or change port in app.py
-
-app.run(port=5002)# Required Accountspython3 -m venv venv
-
-```
-
-✅ LiveKit Account (https://livekit.io/)
-
-</details>
-
-✅ Google AI Account (https://ai.google.dev/)4) Run the voice agent and dashboard:
-
-<details>
-
-<summary><b>⚠️ Database Locked</b></summary>```
-
-
-
-```bash# Activate virtual environment
-
-# Close SQLite browser
-
-# Restart Flask app<div align="center">
-
-# Check permissions
-
-chmod 644 database.db# On macOS/Linux:```bash
-
-```
-
-| Requirement | Version | Status |
-
-</details>
-
-|------------|---------|--------|source venv/bin/activate# Start the voice agent
-
-<details>
-
-<summary><b>⚠️ Voice Agent Not Connecting</b></summary>| 🐍 Python | 3.13+ | Required |
-
-
-
-- ✅ Check `.env` credentials| 📦 pip | Latest | Required |python agent_voice.py start
-
-- ✅ Verify internet connection
-
-- ✅ Check LiveKit console| 🌐 Git | Latest | Required |
-
-- ✅ Ensure API key is active
-
-| 🎙️ LiveKit Account | - | Required |# On Windows:# Start the dashboard
-
-</details>
-
-| 🤖 Google Gemini API | 2.0 | Required |
-
----
-
-venv\Scripts\activatepython app.py
-
-## 📊 Performance
-
-</div>
-
-<div align="center">
-
-``````
-
-| Metric | Value | Status |
-
-|--------|-------|--------|---
-
-| ⚡ Response Time | < 500ms | 🟢 |
-
-| 🎯 Accuracy | 95%+ | 🟢 |
-
-| 📞 Concurrent Calls | Unlimited | 🟢 |
-
-| 💾 Query Speed | < 50ms | 🟢 |## 🚀 Quick Start
-
-| 🎨 Page Load | < 2s | 🟢 |
-
-### 3. Install DependenciesDashboard: http://localhost:5000 (default admin: admin / admin123)
-
-</div>
-
-<div align="center">
-
----
-
-
-
-## 🤝 Contributing
-
-### **Get Up and Running in 5 Minutes!** ⚡
-
-<div align="center">
-
-<img src="https://user-images.githubusercontent.com/74038190/212284115-f47cd8ff-2ffb-4b04-b5bf-4d1c14c0247f.gif" width="400">```bash```
-
-</div>
-
-<img src="https://user-images.githubusercontent.com/74038190/212284158-e840e285-664b-44d7-b79b-e264b5e54825.gif" width="400">
-
-1. 🍴 Fork repository
-
-2. 🌿 Create feature branch (`git checkout -b feature/Amazing`)pip install -r requirements.txt
-
-3. ✍️ Commit changes (`git commit -m 'Add Amazing'`)
-
-4. 📤 Push to branch (`git push origin feature/Amazing`)</div>
-
-5. 🎯 Open Pull Request
-
-```- No voice/answer: verify `.env` keys, LiveKit URL, and that `agent_voice.py` and `app.py` are running## ✨ Features
-
-**Ideas Welcome:**
-
-- 🐛 Bug fixes### **Step 1️⃣: Clone the Repository**
-
-- ✨ New features
-
-- 📝 Documentation
-
-- 🎨 UI improvements
-
-- 🌍 Translations```bash
-
-
-
----# Clone the project### 4. Configure Environment Variables
-
-
-
-## 📝 Licensegit clone https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant.git
-
-
-
-<div align="center">
-
-
-
-**MIT License** - Free to use, modify, and distribute# Navigate to project directory
-
-
-
-[![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)](LICENSE)cd FrontDesk_AI_Voice_Assistant/frontdesk_projectCreate a `.env` file in the project root:## License---![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)- **Human-in-the-Loop**: Escalates unknown questions to supervisors
-
-
-
-</div>```
-
-
-
----
-
-
-
-## 👨‍💻 Developer### **Step 2️⃣: Set Up Virtual Environment**
-
-
-
-<div align="center">```bashMIT
-
-
-
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="500"><table>
-
-
-
-### **Mohd Raza Khan**<tr>cp .env.example .env### 🎯 Voice Intelligence
-
-
-
-[![GitHub](https://img.shields.io/badge/GitHub-mohdrazakhan-181717?style=for-the-badge&logo=github)](https://github.com/mohdrazakhan)<td width="50%">
-
-[![Repository](https://img.shields.io/badge/Repository-FrontDesk__AI-blue?style=for-the-badge&logo=github)](https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant)
-
-```
-
-</div>
-
-**macOS / Linux** 🐧
-
----
-
-- **Natural Conversations** - Customers speak, AI responds with human-like voice
-
-## 🙏 Acknowledgments
-
-```bash
-
-<div align="center">
-
-# Create virtual environmentEdit `.env` with your credentials:
+LIVEKIT_API_KEY=...
 
 <table>
 
-<tr>python3 -m venv venv
+<tr>### 🤖 AI Voice Agent
 
-<td align="center">
+<td align="center" width="33%">
 
-<img src="https://user-images.githubusercontent.com/74038190/212257467-871d32b7-e401-42e8-a166-fcfd7baa4c6b.gif" width="80"/>- **Automatic Greeting** - Agent introduces itself immediately when customer connects
+<img src="https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png" width="80" />- **Natural Voice Interactions** - Powered by Google Gemini 2.0 Multimodal Live APILIVEKIT_API_SECRET=...
 
-<br/><b>LiveKit</b>
+<h3>🤖 AI Voice Agent</h3>
 
-<br/><sub>Voice Infrastructure</sub># Activate it
+<p align="left">- **Real-time Conversations** - Low-latency voice processing through LiveKit
 
-</td>
+• Natural voice conversations<br>
 
-<td align="center">source venv/bin/activate```env
+• Low-latency responses<br>- **Smart Knowledge Base** - Learns from previous interactions and supervisor answersGOOGLE_API_KEY=...[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Dashboard](#-supervisor-dashboard) • [API](#-api-reference)![LiveKit](https://img.shields.io/badge/LiveKit-Voice%20Agent-orange.svg)
 
-<img src="https://user-images.githubusercontent.com/74038190/212257468-1e9a91f1-b626-4baa-b15d-5c385dfa7ed2.gif" width="80"/>
+• Multi-language support<br>
 
-<br/><b>Google Gemini</b>```
+• Context awareness<br>- **Auto-Escalation** - Automatically routes complex queries to human supervisors
 
-<br/><sub>AI & ML</sub>
+• Auto-escalation logic
 
-</td># LiveKit Configuration- **Knowledge Base Search** - Searches internal documentation to answer questions## 🌟 Overview- **Learning System**: Updates knowledge base with supervisor answers
-
-<td align="center">
-
-<img src="https://user-images.githubusercontent.com/74038190/212257465-7ce8d493-cac5-494e-982a-5a9deb852c4b.gif" width="80"/></td>
-
-<br/><b>Flask</b>
-
-<br/><sub>Web Framework</sub><td width="50%">LIVEKIT_URL=wss://your-project.livekit.cloud
+</p>- **Mandatory Escalation** - Appointment requests always require supervisor approvalFLASK_SECRET_KEY=change-me
 
 </td>
 
-<td align="center">
+<td align="center" width="33%">
 
-<img src="https://user-images.githubusercontent.com/74038190/212257472-08e52665-c503-4bd9-aa20-f5a4dae769b5.gif" width="80"/>
+<img src="https://user-images.githubusercontent.com/74038190/235224431-e8c8c12e-6826-47f1-89fb-2ddad83b3abf.gif" width="80" />
 
-<br/><b>Chart.js</b>**Windows** 🪟LIVEKIT_API_KEY=your_livekit_api_key- **Smart Escalation** - Automatically routes complex questions to supervisors
+<h3>📊 Analytics Dashboard</h3>### 👥 Supervisor Dashboard```
 
-<br/><sub>Visualization</sub>
+<p align="left">
+
+• Real-time statistics<br>- **Modern, Responsive UI** - Clean, professional interface accessible on all devices
+
+• Visual charts & graphs<br>
+
+• Performance tracking<br>- **Real-time Request Monitoring** - Live updates for new escalated questions
+
+• Activity logs<br>
+
+• Export reports- **Browser Notifications** - Instant alerts for new customer requests
+
+</p>
+
+</td>- **Knowledge Base Management** - Add, edit, and delete Q&A entries2) Initialize database</div>![Google Gemini](https://img.shields.io/badge/Google-Gemini%202.0-4285F4.svg)
+
+<td align="center" width="33%">
+
+<img src="https://user-images.githubusercontent.com/74038190/216120981-b9507c36-0e04-4469-8e27-c99271b45ba5.png" width="80" />- **User Management** - Admin can approve/reject supervisor registration requests
+
+<h3>🔐 Secure & Scalable</h3>
+
+<p align="left">- **Analytics & Reporting** - Track resolution rates, active time, and performance metrics```bash
+
+• Role-based access<br>
+
+• Encrypted sessions<br>- **Role-based Access Control** - Separate admin and supervisor permissions
+
+• Admin approval flow<br>
+
+• Audit trails<br>python database.py
+
+• Cloud-ready
+
+</p>### 📊 Analytics & Insights
+
+</td>
+
+</tr>- **Question Status Tracking** - Visual charts for solved vs. unresolved queries```
+
+</table>
+
+- **User Activity Logs** - Monitor supervisor active time and engagement
+
+</div>
+
+- **Performance Metrics** - Dashboard stats including total, pending, and personal solved counts---![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)## ✨ Features
+
+### 🎯 **Core Capabilities**
+
+- **Recent Questions Display** - Quick access to latest escalations
+
+<details open>
+
+<summary><b>🤖 AI Voice Agent Features</b></summary>3) Run
+
+<br>
+
+### 🔐 Security & Authentication
+
+| Feature | Description | Status |
+
+|---------|-------------|--------|- **Secure Login System** - Session-based authentication- Voice agent
+
+| 🎤 **Natural Voice** | Powered by Google Gemini 2.0 Multimodal Live | ✅ Active |
+
+| ⚡ **Real-time Processing** | Ultra-low latency through LiveKit | ✅ Active |- **Password Protection** - Hashed password storage
+
+| 🧠 **Smart Knowledge Base** | Learns from supervisor answers | ✅ Active |
+
+| 🔄 **Auto-Escalation** | Routes complex queries to humans | ✅ Active |- **User Registration Workflow** - Admin approval required for new supervisors```bash
+
+| 📅 **Appointment Booking** | Mandatory supervisor approval | ✅ Active |
+
+| 🌍 **Multi-language** | Supports multiple languages | 🔜 Coming Soon |- **Protected Routes** - Login required for dashboard access
+
+
+
+</details>- **Admin-only Features** - Supervisor management restricted to adminspython agent_voice.py start## 🌟 Overview
+
+
+
+<details open>
+
+<summary><b>👨‍💼 Supervisor Dashboard Features</b></summary>
+
+<br>---```
+
+
+
+| Feature | Description | Status |
+
+|---------|-------------|--------|
+
+| 🎨 **Modern UI/UX** | Beautiful, responsive design | ✅ Active |## 🛠️ Technology Stack- Dashboard
+
+| 🔔 **Browser Notifications** | Instant alerts for new requests | ✅ Active |
+
+| 📚 **Knowledge Management** | Add, Edit, Delete Q&A entries | ✅ Active |
+
+| 👥 **User Management** | Approve/reject supervisor requests | ✅ Active |
+
+| 📊 **Analytics & Charts** | Visual performance metrics | ✅ Active |### Backend```bash
+
+| 🔍 **Advanced Search** | Filter and find requests quickly | ✅ Active |
+
+- **Python 3.13+** - Core programming language
+
+</details>
+
+- **Flask 3.0+** - Web framework for dashboard and APIpython app.py**FrontDesk AI Voice Assistant** is an enterprise-grade voice AI system that handles customer inquiries through natural conversation. Built on **LiveKit's real-time communication platform** and powered by **Google Gemini 2.0 Flash Multimodal Live API**, it seamlessly escalates complex questions to human supervisors.**An intelligent voice assistant powered by Google Gemini AI with real-time supervisor escalation**![Python](https://img.shields.io/badge/python-3.13+-green.svg)
+
+<details>
+
+<summary><b>🔐 Security & Access Control</b></summary>- **SQLite** - Lightweight database for storing requests, users, and knowledge base
+
+<br>
+
+- **LiveKit Agents** - Voice agent framework```
+
+- ✅ **Session-based Authentication** - Secure login/logout
+
+- ✅ **Password Hashing** - Encrypted password storage- **Google Gemini 2.0** - Multimodal AI for natural language processing
+
+- ✅ **Role-based Access** - Admin vs Supervisor permissions
+
+- ✅ **Protected Routes** - Login required for dashboardDashboard: http://localhost:5000 (default admin: admin / admin123)
+
+- ✅ **Admin Approval** - New users require approval
+
+- ✅ **Audit Logging** - Track all user actions### Frontend
+
+
+
+</details>- **Vanilla JavaScript** - No heavy frameworks, fast and lightweightUse LiveKit Agents Playground to connect to the voice agent.
+
+
+
+---- **Chart.js** - Interactive data visualizations
+
+
+
+## 🛠️ Technology Stack- **Modern CSS** - Responsive design with custom animations### Why This Project?
+
+
+
+<div align="center">- **HTML5** - Semantic markup
+
+
+
+### **Built with Industry-Leading Technologies**
+
+
+
+<table>### Infrastructure## Quick Start
+
+<tr>
+
+<td align="center" width="20%">- **LiveKit Cloud** - Voice streaming and agent hosting
+
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" width="60" />
+
+<br><strong>Python 3.13+</strong>- **WebSockets** - Real-time communication1) Setup environment
+
+</td>
+
+<td align="center" width="20%">- **RESTful API** - Clean, documented endpoints
+
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/flask/flask-original.svg" width="60" />
+
+<br><strong>Flask 3.0+</strong>```bash
+
+</td>
+
+<td align="center" width="20%">---python3 -m venv venv
+
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlite/sqlite-original.svg" width="60" />
+
+<br><strong>SQLite</strong>source venv/bin/activate
+
+</td>
+
+<td align="center" width="20%">## 📋 Prerequisitespip install -r requirements.txt
+
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="60" />
+
+<br><strong>JavaScript</strong>cp .env.example .env
+
+</td>
+
+<td align="center" width="20%">Before you begin, ensure you have the following installed:```
+
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" width="60" />
+
+<br><strong>HTML5/CSS3</strong>
+
+</td>
+
+</tr>- **Python 3.13 or higher** - [Download Python](https://www.python.org/downloads/)Edit `.env` with your keys:
+
+</table>
+
+- **pip** - Python package installer (included with Python)
+
+<table>
+
+<tr>- **Git** - Version control system```env
+
+<td align="center" width="33%">
+
+<img src="https://user-images.githubusercontent.com/74038190/212257472-08e52665-c503-4bd9-aa20-f5a4dae769b5.gif" width="80" />- **LiveKit Account** - [Sign up at LiveKit](https://livekit.io/)LIVEKIT_URL=wss://<your>.livekit.cloud
+
+<br><strong>LiveKit Agents</strong>
+
+<br><sub>Voice Infrastructure</sub>- **Google AI Account** - [Get Gemini API Key](https://ai.google.dev/)LIVEKIT_API_KEY=...
+
+</td>
+
+<td align="center" width="33%">LIVEKIT_API_SECRET=...
+
+<img src="https://user-images.githubusercontent.com/74038190/212257468-1e9a91f1-b626-4baa-b15d-5c385dfa7ed2.gif" width="80" />
+
+<br><strong>Google Gemini 2.0</strong>---GOOGLE_API_KEY=...
+
+<br><sub>AI & ML</sub>
+
+</td>FLASK_SECRET_KEY=change-me
+
+<td align="center" width="33%">
+
+<img src="https://user-images.githubusercontent.com/74038190/212257465-7ce8d493-cac5-494e-982a-5a9deb852c4b.gif" width="80" />## 🚀 Installation & Setup```
+
+<br><strong>Chart.js</strong>
+
+<br><sub>Data Visualization</sub>
+
+</td>
+
+</tr>### 1. Clone the Repository2) Initialize database
+
+</table>
+
+
+
+</div>
+
+```bash```bash
+
+---
+
+git clone https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant.gitpython database.py
+
+## 📋 Prerequisites
+
+cd FrontDesk_AI_Voice_Assistant/frontdesk_project```
+
+<div align="center">
+
+```
+
+### **Before You Begin** 🚦
+
+3) (Optional) Normalize legacy status values in help_requests (if upgrading from older version):
+
+</div>
+
+### 2. Create Virtual Environment
+
+```bash
+
+# Required Software```bash
+
+✅ Python 3.13 or higher
+
+✅ pip (Python package manager)```bashpython scripts/normalize_status.py
+
+✅ Git
+
+✅ Modern web browser (Chrome, Firefox, Safari, Edge)# Create virtual environment```
+
+
+
+# Required Accountspython3 -m venv venv
+
+✅ LiveKit Account (https://livekit.io/)
+
+✅ Google AI Account (https://ai.google.dev/)4) Run the voice agent and dashboard:
+
+```
+
+# Activate virtual environment
+
+<div align="center">
+
+# On macOS/Linux:```bash
+
+| Requirement | Version | Status |
+
+|------------|---------|--------|source venv/bin/activate# Start the voice agent
+
+| 🐍 Python | 3.13+ | Required |
+
+| 📦 pip | Latest | Required |python agent_voice.py start
+
+| 🌐 Git | Latest | Required |
+
+| 🎙️ LiveKit Account | - | Required |# On Windows:# Start the dashboard
+
+| 🤖 Google Gemini API | 2.0 | Required |
+
+venv\Scripts\activatepython app.py
+
+</div>
+
+``````
+
+---
+
+
+
+## 🚀 Quick Start
+
+### 3. Install DependenciesDashboard: http://localhost:5000 (default admin: admin / admin123)
+
+<div align="center">
+
+
+
+### **Get Up and Running in 5 Minutes!** ⚡
+
+```bash```
+
+<img src="https://user-images.githubusercontent.com/74038190/212284158-e840e285-664b-44d7-b79b-e264b5e54825.gif" width="400">
+
+pip install -r requirements.txt
+
+</div>
+
+```- No voice/answer: verify `.env` keys, LiveKit URL, and that `agent_voice.py` and `app.py` are running## ✨ Features
+
+### **Step 1️⃣: Clone the Repository**
+
+
+
+```bash
+
+# Clone the project### 4. Configure Environment Variables
+
+git clone https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant.git
+
+
+
+# Navigate to project directory
+
+cd FrontDesk_AI_Voice_Assistant/frontdesk_projectCreate a `.env` file in the project root:## License---![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)- **Human-in-the-Loop**: Escalates unknown questions to supervisors
+
+```
+
+
+
+### **Step 2️⃣: Set Up Virtual Environment**
+
+```bashMIT
+
+<table>
+
+<tr>cp .env.example .env### 🎯 Voice Intelligence
+
+<td width="50%">
+
+```
+
+**macOS / Linux** 🐧
+
+- **Natural Conversations** - Customers speak, AI responds with human-like voice
+
+```bash
+
+# Create virtual environmentEdit `.env` with your credentials:
+
+python3 -m venv venv
+
+- **Automatic Greeting** - Agent introduces itself immediately when customer connects
+
+# Activate it
+
+source venv/bin/activate```env
+
+```
+
+# LiveKit Configuration- **Knowledge Base Search** - Searches internal documentation to answer questions## 🌟 Overview- **Learning System**: Updates knowledge base with supervisor answers
+
+</td>
+
+<td width="50%">LIVEKIT_URL=wss://your-project.livekit.cloud
+
+
+
+**Windows** 🪟LIVEKIT_API_KEY=your_livekit_api_key- **Smart Escalation** - Automatically routes complex questions to supervisors
+
+
+
+```bashLIVEKIT_API_SECRET=your_livekit_api_secret
+
+# Create virtual environment
+
+python -m venv venv- **Appointment Handling** - Always escalates appointment bookings to human verification
+
+
+
+# Activate it# Google AI Configuration
+
+venv\Scripts\activate
+
+```GOOGLE_API_KEY=your_google_gemini_api_key
+
+
 
 </td>
 
 </tr>
 
-</table>```bashLIVEKIT_API_SECRET=your_livekit_api_secret
+</table># Flask Configuration### 🔄 Real-Time Supervisor Integration**FrontDesk AI Voice Assistant** is a production-ready, enterprise-grade voice AI system that handles customer inquiries through natural conversation. Built on LiveKit's real-time communication platform and powered by Google Gemini 2.0 Flash with Multimodal Live API.**An intelligent voice assistant powered by Google Gemini AI with real-time supervisor escalation**- **Close the Loop**: Automatically notifies customers when supervisors provide answers
 
 
 
-</div># Create virtual environment
+### **Step 3️⃣: Install Dependencies**FLASK_SECRET_KEY=your_random_secret_key_here
 
 
 
----python -m venv venv- **Appointment Handling** - Always escalates appointment bookings to human verification
+```bash- **3-Second Delivery** - Supervisor answers delivered to customers via voice within 3 seconds
 
+# Install all required packages
 
-
-## 📞 Support
-
-
-
-<div align="center"># Activate it# Google AI Configuration
-
-
-
-<img src="https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png" width="300">venv\Scripts\activate
-
-
-
-**Need Help?**```GOOGLE_API_KEY=your_google_gemini_api_key
-
-
-
-[![Documentation](https://img.shields.io/badge/📚_Documentation-blue?style=for-the-badge)](https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant/wiki)
-
-[![Issues](https://img.shields.io/badge/🐛_Report_Bug-red?style=for-the-badge)](https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant/issues)
-
-[![Discussions](https://img.shields.io/badge/💬_Discuss-green?style=for-the-badge)](https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant/discussions)</td>
-
-
-
-</div></tr>
-
-
-
----</table># Flask Configuration### 🔄 Real-Time Supervisor Integration**FrontDesk AI Voice Assistant** is a production-ready, enterprise-grade voice AI system that handles customer inquiries through natural conversation. Built on LiveKit's real-time communication platform and powered by Google Gemini 2.0 Flash with Multimodal Live API.**An intelligent voice assistant powered by Google Gemini AI with real-time supervisor escalation**- **Close the Loop**: Automatically notifies customers when supervisors provide answers
-
-
-
-## 🌟 Star History
-
-
-
-<div align="center">### **Step 3️⃣: Install Dependencies**FLASK_SECRET_KEY=your_random_secret_key_here
-
-
-
-[![Star History](https://api.star-history.com/svg?repos=mohdrazakhan/FrontDesk_AI_Voice_Assistant&type=Date)](https://star-history.com/#mohdrazakhan/FrontDesk_AI_Voice_Assistant&Date)
-
-
-
-</div>```bash- **3-Second Delivery** - Supervisor answers delivered to customers via voice within 3 seconds
-
-
-
----# Install all required packages
-
-
-
-## 📈 Statspip install -r requirements.txt# Database (optional - defaults to SQLite)
-
-
-
-<div align="center">```
-
-
-
-![Repo Size](https://img.shields.io/github/repo-size/mohdrazakhan/FrontDesk_AI_Voice_Assistant?style=for-the-badge&logo=github)DATABASE_PATH=database.db- **Background Monitoring** - Agent continuously checks for new supervisor responses
-
-![Contributors](https://img.shields.io/github/contributors/mohdrazakhan/FrontDesk_AI_Voice_Assistant?style=for-the-badge&logo=github)
-
-![Stars](https://img.shields.io/github/stars/mohdrazakhan/FrontDesk_AI_Voice_Assistant?style=for-the-badge&logo=github)<div align="center">
-
-![Forks](https://img.shields.io/github/forks/mohdrazakhan/FrontDesk_AI_Voice_Assistant?style=for-the-badge&logo=github)
-
-![Issues](https://img.shields.io/github/issues/mohdrazakhan/FrontDesk_AI_Voice_Assistant?style=for-the-badge&logo=github)<img src="https://user-images.githubusercontent.com/74038190/212284136-03988914-d899-44b4-b1d9-4eeccf656e44.gif" width="500">```
-
-
-
-</div></div>
-
-
-
----- **Natural Flow** - Seamlessly transitions between AI and human responses
-
-
-
-<div align="center">### **Step 4️⃣: Configure Environment**
-
-
-
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="800">### 5. Initialize Database
-
-
-
-### **Built with ❤️ for Better Customer Experiences**```bash
-
-
-
-**⭐ Star this repo if you find it helpful! ⭐**# Create environment file- **Status Tracking** - Prevents duplicate answers with database state management### Key Capabilities
-
-
-
-[![GitHub stars](https://img.shields.io/github/stars/mohdrazakhan/FrontDesk_AI_Voice_Assistant?style=social)](https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant/stargazers)cp .env.example .env
-
-[![GitHub forks](https://img.shields.io/github/forks/mohdrazakhan/FrontDesk_AI_Voice_Assistant?style=social)](https://github.com/mohdrazakhan/FrontDesk_AI_Voice_Assistant/network/members)
-
-The database will be automatically created when you first run the application. It includes tables for:
-
----
-
-# Edit with your credentials
-
-<sub>Made with 💜 by Mohd Raza Khan | Python • Flask • LiveKit • Google Gemini</sub>
-
-nano .env  # or use your favorite editor- `supervisors` - User accounts
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer"/>
+pip install -r requirements.txt# Database (optional - defaults to SQLite)
 
 ```
 
+DATABASE_PATH=database.db- **Background Monitoring** - Agent continuously checks for new supervisor responses
+
+<div align="center">
+
+<img src="https://user-images.githubusercontent.com/74038190/212284136-03988914-d899-44b4-b1d9-4eeccf656e44.gif" width="500">```
+
 </div>
+
+- **Natural Flow** - Seamlessly transitions between AI and human responses
+
+### **Step 4️⃣: Configure Environment**
+
+### 5. Initialize Database
+
+```bash
+
+# Create environment file- **Status Tracking** - Prevents duplicate answers with database state management### Key Capabilities
+
+cp .env.example .env
+
+The database will be automatically created when you first run the application. It includes tables for:
+
+# Edit with your credentials
+
+nano .env  # or use your favorite editor- `supervisors` - User accounts
+
+```
 
 - `help_requests` - Escalated questions
 
