@@ -115,9 +115,9 @@
             // Get current user from session (stored when loading page)
             const currentUser = document.getElementById('user-profile-name')?.textContent || 'User';
             
-            // Calculate stats - Filter by answer field (null/empty = pending)
-            const pending = requests.filter(r => !r.answer);
-            const resolved = requests.filter(r => r.answer);
+            // Calculate stats - Filter by supervisor_answer field for resolved status
+            const pending = requests.filter(r => !r.supervisor_answer);
+            const resolved = requests.filter(r => r.supervisor_answer);
             const mySolved = resolved.filter(r => r.supervisor_assigned === currentUser || r.resolved_by === currentUser);
             
             // Update stat cards
@@ -129,8 +129,8 @@
             // Update pending chart - DISABLED, now handled by dashboard.js
             // updatePendingChart(pending.length, requests.length);
             
-            // Load only PENDING questions in Recent Questions section
-            loadRecentQuestions(pending.slice(0, 6));
+            // Load ALL recent questions (pending + resolved) - most recent first
+            loadRecentQuestions(requests.slice(0, 6));
             
         } catch (error) {
             console.error('Error loading dashboard data:', error);
@@ -234,7 +234,7 @@
         container.innerHTML = '';
         
         if (requests.length === 0) {
-            container.innerHTML = '<p style="text-align:center;color:#9CA3AF;padding:2rem;">No pending questions</p>';
+            container.innerHTML = '<p style="text-align:center;color:#9CA3AF;padding:2rem;">No recent questions</p>';
             return;
         }
         
@@ -243,9 +243,10 @@
             tile.className = 'question-tile question-tile-animate';
             tile.style.animationDelay = `${index * 0.1}s`;
             
-            // All recent questions are pending (already filtered)
-            const statusClass = 'status-pending';
-            const statusText = 'PENDING';
+            // Check if resolved based on supervisor_answer
+            const isResolved = !!request.supervisor_answer;
+            const statusClass = isResolved ? 'status-resolved' : 'status-pending';
+            const statusText = isResolved ? 'RESOLVED' : 'PENDING';
             
             const timeAgo = getTimeAgo(request.created_at);
             

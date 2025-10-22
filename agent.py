@@ -77,6 +77,14 @@ def log_help_request(customer_id: str, question: str) -> None:
     if not question:
         return
     with get_db_connection() as conn:
+        # Check for existing pending request for same customer and question
+        existing = conn.execute(
+            "SELECT id FROM help_requests WHERE customer_identifier = ? AND question_text = ? AND status = 'Pending'",
+            (customer_id or "UnknownCustomer", question)
+        ).fetchone()
+        if existing:
+            logger.info(f"Duplicate help request ignored for: '{question}' from {customer_id}")
+            return
         conn.execute(
             "INSERT INTO help_requests (customer_identifier, question_text, status) VALUES (?, ?, 'Pending')",
             (customer_id or "UnknownCustomer", question),
@@ -93,7 +101,7 @@ async def send_heartbeat(customer_id: str) -> None:
     logger.info("💓 Starting heartbeat monitoring...")
     conn = get_db_connection()
     
-    # Create user activity session
+    # Create user activity session (always use customer_id, which may be internal id)
     conn.execute('''
         INSERT INTO user_activity (customer_id, start_time, last_heartbeat)
         VALUES (?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
@@ -137,7 +145,7 @@ async def send_heartbeat(customer_id: str) -> None:
                     except Exception:
                         pass
             
-            await asyncio.sleep(10)
+            await asyncio.sleep(5)
         except Exception as e:
             logger.error(f"❌ Error in heartbeat: {e}")
             await asyncio.sleep(10)
@@ -155,7 +163,7 @@ async def check_supervisor_answers(session: AgentSession, customer_id: str) -> N
     
     while True:
         try:
-            await asyncio.sleep(3)  # Check every 3 seconds for faster response
+            await asyncio.sleep(2)  # Check every 2 seconds for faster response
             
             # Query database for answered requests for this customer
             conn = get_db_connection()
@@ -334,11 +342,12 @@ async def entrypoint(ctx: JobContext):
         "\n\n"
         "IMPORTANT RULES:\n"
         "1. You CANNOT book appointments yourself - you don't have access to the appointment system.\n"
-        "2. When someone wants to book an appointment, you MUST tell them: "
-        "'Let me check with my supervisor and get back to you.'\n"
-        "3. Then immediately use the request_supervisor_help() function to escalate with their request details.\n"
-        "4. Never say you can book directly - always escalate to supervisor for appointments.\n"
-        "5. For other questions (services, prices, hours), answer directly without escalation."
+        "2. When someone wants to book an appointment, you MUST say: 'Let me check with my supervisor and get back to you.'\n"
+        "3. BEFORE sending the question to your supervisor, ALWAYS check if a similar question is available in the knowledge base by calling the search_knowledge_base() function.\n"
+        "4. If a relevant answer is found in the knowledge base, reply to the customer using that answer and do NOT escalate.\n"
+        "5. If no similar question is found in the knowledge base, IMMEDIATELY call the request_supervisor_help() function with the customer's request details. Do NOT wait for further input.\n"
+        "6. Never say you can book directly - always escalate to supervisor for appointments if not found in knowledge base.\n"
+        "7. For other questions (services, prices, hours), answer directly without escalation."
     )
     
     logger.info("🤖 Creating voice assistant session...")

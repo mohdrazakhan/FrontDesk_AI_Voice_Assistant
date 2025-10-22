@@ -84,7 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch user info and update UI
     fetch('/settings/profile').then(r => r.json()).then(user => {
         // Topbar
-        document.getElementById('user-profile-name').textContent = user.full_name || user.username || 'User';
+    // Always set user-profile-name to username for stat matching
+    document.getElementById('user-profile-name').textContent = user.username || 'User';
         document.getElementById('user-profile-img').src = user.profile_pic || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name || user.username || 'User')}&background=6366f1&color=fff&size=128`;
         // Dropdown
         document.getElementById('user-dropdown-fullname').textContent = user.full_name || user.username || 'User';
@@ -96,22 +97,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch recent questions for notifications
     let seenNotifications = JSON.parse(localStorage.getItem('seenNotifications') || '[]');
     
+    // Browser notification for new escalations
+    function notifySupervisorNewEscalation(question) {
+        const title = 'New Escalation';
+        const body = question.question_text.length > 72 ? question.question_text.slice(0,72)+'…' : question.question_text;
+        if (window.Notification && Notification.permission === 'granted') {
+            new Notification(title, { body });
+        } else if (window.Notification && Notification.permission !== 'denied') {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    new Notification(title, { body });
+                } else {
+                    showToast('New escalation: ' + body, 'info');
+                }
+            });
+        } else {
+            showToast('New escalation: ' + body, 'info');
+        }
+    }
+
+    let lastPendingIds = [];
     function updateNotifications() {
         fetch('/requests').then(r => r.json()).then(requests => {
             // Only PENDING questions (no answer)
             const pending = requests.filter(r => !r.answer);
-            
             // New questions are those not in seenNotifications
             const newQuestions = pending.filter(q => !seenNotifications.includes(q.id));
-            
+            // Browser notification for truly new escalations
+            const pendingIds = pending.map(q => q.id);
+            if (lastPendingIds.length > 0) {
+                // Notify for any new pending not in lastPendingIds
+                pending.forEach(q => {
+                    if (!lastPendingIds.includes(q.id)) {
+                        notifySupervisorNewEscalation(q);
+                    }
+                });
+            }
+            lastPendingIds = pendingIds;
             // Update badge with count of NEW questions only
             notifBadge.textContent = newQuestions.length;
             notifBadge.style.display = newQuestions.length > 0 ? 'block' : 'none';
-            
             // Show most recent 6 pending questions in dropdown
             const recent = pending.slice(0, 6);
             notifList.innerHTML = '';
-            
             if (recent.length === 0) {
                 notifList.innerHTML = '<li class="notif-empty">No pending questions</li>';
             } else {
@@ -176,7 +204,8 @@ const state = {
     isLoading: false,
     lastUpdate: null,
     userInputs: {},
-    lastInteractionTime: null
+    lastInteractionTime: null,
+    userRole: null // Store user role for access control
 };
 
 // Wait for DOM to be ready before getting elements
@@ -216,9 +245,13 @@ async function fetchRequests() {
     // Demo data for standalone HTML
     try {
         const response = await fetch('/requests');
-        if (!response.ok) throw new Error('Failed to fetch requests');
+        if (!response.ok) {
+            showToast('Failed to load requests. Please refresh.', 'error');
+            throw new Error('Failed to fetch requests');
+        }
         return await response.json();
     } catch (error) {
+        showToast('Network error loading requests.', 'error');
         console.error('Error fetching requests:', error);
         return [];
     }
@@ -227,9 +260,13 @@ async function fetchRequests() {
 async function fetchKnowledgeBase() {
     try {
         const response = await fetch('/knowledge_base');
-        if (!response.ok) throw new Error('Failed to fetch knowledge base');
+        if (!response.ok) {
+            showToast('Failed to load knowledge base.', 'error');
+            throw new Error('Failed to fetch knowledge base');
+        }
         return await response.json();
     } catch (error) {
+        showToast('Network error loading knowledge base.', 'error');
         console.error('Error fetching knowledge base:', error);
         return [];
     }
@@ -263,8 +300,8 @@ function restoreSavedInputs() {
 }
 function createRequestCard(request) {
     const timestamp = formatTimestamp(request.created_at);
-    const statusTag = request.answer ? 'Solved' : 'Unresolved';
-    const badgeClass = request.answer ? 'badge-solved' : 'badge-unresolved';
+    const statusTag = request.supervisor_answer ? 'Solved' : 'Unresolved';
+    const badgeClass = request.supervisor_answer ? 'badge-solved' : 'badge-unresolved';
     
     // Split timestamp into date and time
     const [datePart, timePart] = timestamp.split(' at ');
@@ -297,8 +334,8 @@ function createRequestCard(request) {
     `;
 }
 function updateStats() {
-    const pending = state.requests.filter(r => !r.answer).length;
-    const resolved = state.requests.filter(r => r.answer).length;
+    const pending = state.requests.filter(r => !r.supervisor_answer).length;
+    const resolved = state.requests.filter(r => r.supervisor_answer).length;
     const total = state.requests.length;
     
     if (elements.pendingCount) elements.pendingCount.textContent = pending;
@@ -381,7 +418,6 @@ function handleFilterChange() {
 }
 async function loadRequests() {
     state.isLoading = true;
-    renderRequestsTable();
     state.requests = await fetchRequests();
     state.lastUpdate = new Date();
     state.isLoading = false;
@@ -467,14 +503,24 @@ function updateGraph() {
         clientHeight: elements.graphCanvas.clientHeight
     });
     
-    const solved = state.requests.filter(r => r.answer).length;
-    const unresolved = state.requests.filter(r => !r.answer).length;
+    // Use supervisor_answer for resolved, and resolved_by for user count
+    const solved = state.requests.filter(r => r.supervisor_answer).length;
+    const unresolved = state.requests.filter(r => !r.supervisor_answer).length;
     const total = state.requests.length;
-    
+
+    // Get logged-in username from DOM (set in topbar)
+    const userName = document.getElementById('user-profile-name')?.textContent?.trim();
+    const mySolved = state.requests.filter(r => r.supervisor_answer && (r.resolved_by === userName)).length;
+    // Update stat card for "Your Solved"
+    const mySolvedEl = document.getElementById('my-solved-count');
+    if (mySolvedEl) mySolvedEl.textContent = mySolved;
+
     console.log('📈 Chart Data:', { 
         total, 
         solved, 
         unresolved, 
+        mySolved,
+        userName,
         requestsCount: state.requests.length,
         requests: state.requests 
     });
@@ -592,43 +638,42 @@ async function updateActiveTimeChart() {
     
     try {
         // Fetch user activity logs (voice customers)
+        // Fetch user activity logs (voice customers)
         const response = await fetch('/user-activity');
         if (!response.ok) {
             console.error('❌ Failed to fetch user activity');
             return;
         }
-        
         const logs = await response.json();
-        console.log('📊 User activity logs received:', logs.length, 'entries');
+        console.log('📊 Raw activity logs:', logs);
         
-        // Aggregate active time by customer
+        // Aggregate total active time per user
         const userTimes = {};
-        logs.slice(0, 10).forEach(log => {
+        logs.forEach(log => {
             const user = log.username || 'Unknown';
-            const duration = parseFloat(log.duration_minutes) || 0;
-            userTimes[user] = (userTimes[user] || 0) + duration;
+            // Only include if username does NOT start with 'identity-'
+            if (!user.startsWith('identity-')) {
+                const duration = Math.abs(parseFloat(log.duration_minutes) || 0); // Ensure positive
+                userTimes[user] = (userTimes[user] || 0) + duration;
+            }
         });
         
         const labels = Object.keys(userTimes);
-        const dataValues = Object.values(userTimes);
+        const dataValues = Object.values(userTimes).map(val => Math.abs(val)); // Ensure all values are positive
         
-        console.log('📈 Active time data:', { labels, dataValues });
-        
+        console.log('📈 Active time data (aggregated per user):', { labels, dataValues });
         // Handle empty data
         const displayLabels = labels.length > 0 ? labels : ['No Active Users'];
         const displayValues = dataValues.length > 0 ? dataValues : [0];
-        
         // Destroy existing chart
         if (window.activeTimeChart && typeof window.activeTimeChart.destroy === 'function') {
             console.log('🗑️ Destroying old active time chart...');
             window.activeTimeChart.destroy();
             window.activeTimeChart = null;
         }
-        
         // Get fresh canvas context
         const ctx = elements.activeTimeCanvas.getContext('2d');
         console.log('🎨 Canvas context obtained:', ctx);
-        
         // Create chart
         window.activeTimeChart = new Chart(ctx, {
             type: 'bar',
@@ -664,7 +709,7 @@ async function updateActiveTimeChart() {
                         cornerRadius: 8,
                         callbacks: {
                             label: function(context) {
-                                return 'Time: ' + context.parsed.y.toFixed(1) + ' min';
+                                return 'Time: ' + Math.abs(context.parsed.y).toFixed(1) + ' min';
                             }
                         }
                     }
@@ -672,17 +717,31 @@ async function updateActiveTimeChart() {
                 scales: {
                     y: {
                         beginAtZero: true,
+                        min: 0, // Force minimum to be 0
                         ticks: {
-                            stepSize: 1,
-                            precision: 0
+                            stepSize: 50,
+                            precision: 0,
+                            callback: function(value) {
+                                return Math.abs(value); // Ensure positive display
+                            }
                         },
                         grid: {
                             color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Minutes',
+                            font: { size: 12 }
                         }
                     },
                     x: {
                         grid: {
                             display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Users',
+                            font: { size: 12 }
                         }
                     }
                 }
@@ -715,11 +774,33 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Navigation logic - Make globally accessible
     window.showPage = function showPage(page) {
+        // Check if user is trying to access Supervisors page without admin role
+        if (page === 'supervisors' && state.userRole !== 'admin') {
+            showToast('Access denied. Only admins can access the Supervisors page.', 'error');
+            // Redirect to dashboard
+            page = 'dashboard';
+        }
+        
         Object.values(elements.pages).forEach(p => p.style.display = 'none');
         elements.pages[page].style.display = 'block';
+        
+        // Update sidebar nav items
         elements.navItems.forEach(item => item.classList.remove('active'));
         const navMap = {dashboard: 0, requests: 1, knowledge: 2, supervisors: 3, settings: 4};
         if (navMap[page] !== undefined) elements.navItems[navMap[page]].classList.add('active');
+        
+        // Update topbar nav links
+        const topbarNavLinks = document.querySelectorAll('.nav-link');
+        topbarNavLinks.forEach(link => {
+            if (link.getAttribute('data-page') === page) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        
+        // Save current page to localStorage
+        localStorage.setItem('currentPage', page);
     }
     // Sidebar navigation
     elements.navItems[0].addEventListener('click', e => {e.preventDefault(); showPage('dashboard');});
@@ -767,8 +848,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Initial page
-    showPage('dashboard');
+    // Initial page - restore last visited page or default to dashboard
+    let lastPage = localStorage.getItem('currentPage') || 'dashboard';
+    
+    // If non-admin user tries to access supervisors page, redirect to dashboard
+    if (lastPage === 'supervisors' && state.userRole !== 'admin') {
+        lastPage = 'dashboard';
+        localStorage.setItem('currentPage', 'dashboard');
+    }
+    
+    showPage(lastPage);
+    
+    // Load page-specific data after showing the page
+    if (lastPage === 'requests') {
+        setTimeout(() => renderRequestsTable(), 100);
+    } else if (lastPage === 'knowledge') {
+        setTimeout(() => renderKnowledgeTable(), 100);
+    } else if (lastPage === 'supervisors') {
+        setTimeout(() => loadSupervisors('approved'), 100);
+    } else if (lastPage === 'settings') {
+        setTimeout(() => loadUserProfile(), 100);
+    }
     
     // Small delay to ensure everything is loaded
     setTimeout(() => {
@@ -892,15 +992,30 @@ async function renderRequestsTable() {
     if (!requestsGrid) return;
     requestsGrid.innerHTML = '';
 
+
     let filtered = state.requests;
     if (statusFilter && statusFilter.value !== 'all') {
         filtered = filtered.filter(r => {
-            if (statusFilter.value === 'pending') return !r.answer;
-            if (statusFilter.value === 'resolved') return r.answer;
-            if (statusFilter.value === 'unresolved') return !r.answer;
+            if (statusFilter.value === 'pending') return !r.supervisor_answer;
+            if (statusFilter.value === 'resolved') return r.supervisor_answer;
+            if (statusFilter.value === 'unresolved') return !r.supervisor_answer;
             return true;
         });
     }
+
+    // Deduplicate by question_text and customer_identifier (show only the most recent per unique question per customer)
+    const dedupedMap = new Map();
+    for (const r of filtered) {
+        if (!r.question_text) continue;
+        const key = r.customer_identifier + '||' + r.question_text.trim().toLowerCase();
+        // Always keep the request with the highest id (most recent)
+        if (!dedupedMap.has(key) || r.id > dedupedMap.get(key).id) {
+            dedupedMap.set(key, r);
+        }
+    }
+    const beforeDedup = filtered.length;
+    filtered = Array.from(dedupedMap.values());
+    console.log(`Deduplication: ${beforeDedup} requests → ${filtered.length} unique requests`);
 
     if (!filtered || filtered.length === 0) {
         requestsGrid.style.display = 'none';
@@ -913,8 +1028,8 @@ async function renderRequestsTable() {
     // Check bookmarks for each request
     for (const r of filtered) {
         const idx = filtered.indexOf(r);
-        const status = r.answer ? 'Resolved' : 'Unresolved';
-        const statusClass = r.answer ? 'resolved' : '';
+        const status = r.supervisor_answer ? 'Resolved' : 'Unresolved';
+        const statusClass = r.supervisor_answer ? 'resolved' : '';
         const isBookmarked = await checkIfBookmarked(r.id);
         const bookmarkClass = isBookmarked ? 'bookmarked' : '';
         
@@ -1361,28 +1476,121 @@ function searchKnowledge() {
     }
 }
 
-function editKnowledgeEntry(id) {
-    showToast('Edit functionality coming soon!', 'info');
-    console.log('Edit knowledge entry:', id);
-}
-
-function deleteKnowledgeEntry(id) {
-    if (confirm('Are you sure you want to delete this knowledge entry?')) {
-        showToast('Delete functionality coming soon!', 'info');
-        console.log('Delete knowledge entry:', id);
+async function editKnowledgeEntry(id) {
+    try {
+        // Fetch current knowledge base to find the entry
+        const kb = await fetchKnowledgeBase();
+        const entry = kb.find(e => e.id === id);
+        
+        if (!entry) {
+            showToast('Knowledge entry not found', 'error');
+            return;
+        }
+        
+        // Populate the edit form
+        document.getElementById('edit-kb-id').value = id;
+        document.getElementById('edit-kb-question').value = entry.question;
+        document.getElementById('edit-kb-answer').value = entry.answer;
+        
+        // Show the edit modal
+        document.getElementById('edit-knowledge-modal').style.display = 'block';
+    } catch (error) {
+        console.error('Error loading knowledge entry for edit:', error);
+        showToast('Failed to load knowledge entry', 'error');
     }
 }
+
+function closeEditKnowledgeModal() {
+    document.getElementById('edit-knowledge-modal').style.display = 'none';
+    document.getElementById('edit-kb-id').value = '';
+    document.getElementById('edit-kb-question').value = '';
+    document.getElementById('edit-kb-answer').value = '';
+}
+
+async function saveEditedKnowledgeEntry() {
+    const id = document.getElementById('edit-kb-id').value;
+    const question = document.getElementById('edit-kb-question').value.trim();
+    const answer = document.getElementById('edit-kb-answer').value.trim();
+    
+    if (!question || !answer) {
+        showToast('Please fill in both question and answer', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/knowledge_base/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question, answer })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showToast('Knowledge entry updated successfully!', 'success');
+            closeEditKnowledgeModal();
+            renderKnowledgeTable();
+        } else {
+            showToast(data.error || 'Failed to update entry', 'error');
+        }
+    } catch (error) {
+        console.error('Error updating knowledge entry:', error);
+        showToast('Network error. Please try again.', 'error');
+    }
+}
+
+async function deleteKnowledgeEntry(id) {
+    if (!confirm('Are you sure you want to delete this knowledge entry? This action cannot be undone.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/knowledge_base/${id}`, {
+            method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showToast('Knowledge entry deleted successfully!', 'success');
+            renderKnowledgeTable();
+        } else {
+            showToast(data.error || 'Failed to delete entry', 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting knowledge entry:', error);
+        showToast('Network error. Please try again.', 'error');
+    }
+}
+
+// Make knowledge functions globally accessible
+window.toggleAddKnowledgeForm = toggleAddKnowledgeForm;
+window.saveNewKnowledgeEntry = saveNewKnowledgeEntry;
+window.editKnowledgeEntry = editKnowledgeEntry;
+window.deleteKnowledgeEntry = deleteKnowledgeEntry;
+window.closeEditKnowledgeModal = closeEditKnowledgeModal;
+window.saveEditedKnowledgeEntry = saveEditedKnowledgeEntry;
 
 // Registration management functions
 async function checkUserRole() {
     try {
         const response = await fetch('/check-auth');
         const data = await response.json();
+        
+        // Store user role in state
+        state.userRole = data.role;
+        
         if (data.role === 'admin') {
             // Show all admin-only menu items for admins
             const adminOnlyNavItems = document.querySelectorAll('.admin-only');
             adminOnlyNavItems.forEach(item => {
                 item.style.display = 'block';
+            });
+        } else {
+            // Hide Supervisors page for non-admin users
+            const supervisorNavLinks = document.querySelectorAll('[data-page="supervisors"]');
+            supervisorNavLinks.forEach(link => {
+                link.style.display = 'none';
             });
         }
     } catch (error) {
@@ -1780,7 +1988,8 @@ async function loadUserProfile() {
         
     } catch (error) {
         console.error('Error loading profile:', error);
-        alert('❌ Failed to load profile information');
+        // Silently fail - don't show alert to avoid interrupting user experience
+        // User can retry by navigating away and back to Settings
     }
 }
 
@@ -2029,20 +2238,24 @@ async function updateAgentStatus() {
     try {
         // Check agent connection status
         const agentResponse = await fetch('/api/agent-status');
+        if (!agentResponse.ok) {
+            showToast('Failed to check agent status.', 'error');
+            throw new Error('Failed to fetch agent status');
+        }
         const agentData = await agentResponse.json();
-        
         // Check pending notifications
         const notifResponse = await fetch('/api/pending-notifications');
+        if (!notifResponse.ok) {
+            showToast('Failed to check pending notifications.', 'error');
+            throw new Error('Failed to fetch pending notifications');
+        }
         const notifData = await notifResponse.json();
-        
         const indicator = document.getElementById('agent-status-indicator');
         const countBadge = document.getElementById('agent-pending-count');
         const statusText = document.querySelector('.agent-status-text');
-        
         if (indicator) {
             // Remove all status classes first
             indicator.classList.remove('active', 'processing', 'disconnected');
-            
             if (!agentData.connected) {
                 // Agent is NOT connected - show RED
                 indicator.classList.add('disconnected');
@@ -2067,6 +2280,7 @@ async function updateAgentStatus() {
             }
         }
     } catch (error) {
+        showToast('Network error checking agent status.', 'error');
         console.error('Error checking agent status:', error);
         const indicator = document.getElementById('agent-status-indicator');
         if (indicator) {

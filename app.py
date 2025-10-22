@@ -1,14 +1,28 @@
+
 import sqlite3
+import logging
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 import datetime
 from functools import wraps
 
+
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-change-this-in-production'  # Change this to a random secret key
 
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(name)s %(message)s',
+    handlers=[
+        logging.FileHandler("app_backend.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger("app")
+
 # Supervisor credentials (In production, store hashed passwords in database)
 SUPERVISORS = {
-    'admin': 'admin123',
+    'admin': '12345678',
     'supervisor': 'super123'
 }
 
@@ -31,7 +45,7 @@ def get_db_connection():
 @login_required
 def get_knowledge_base():
     conn = get_db_connection()
-    rows = conn.execute('SELECT question, answer FROM knowledge_base ORDER BY id DESC').fetchall()
+    rows = conn.execute('SELECT id, question, answer FROM knowledge_base ORDER BY id DESC').fetchall()
     conn.close()
     return jsonify([dict(row) for row in rows])
 
@@ -54,7 +68,44 @@ def add_to_knowledge_base():
         
         return jsonify({'status': 'success', 'message': 'Added to knowledge base successfully'})
     except Exception as e:
-        print(f"Error adding to knowledge base: {e}")
+        logger.error(f"Error adding to knowledge base: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/knowledge_base/<int:id>', methods=['PUT'])
+@login_required
+def update_knowledge_base(id):
+    """Update an existing knowledge base entry."""
+    try:
+        data = request.get_json()
+        question = data.get('question')
+        answer = data.get('answer')
+        
+        if not question or not answer:
+            return jsonify({'error': 'Question and answer are required'}), 400
+        
+        conn = get_db_connection()
+        conn.execute('UPDATE knowledge_base SET question = ?, answer = ? WHERE id = ?', (question, answer, id))
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'status': 'success', 'message': 'Knowledge base entry updated successfully'})
+    except Exception as e:
+        logger.error(f"Error updating knowledge base: {e}")
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/knowledge_base/<int:id>', methods=['DELETE'])
+@login_required
+def delete_knowledge_base(id):
+    """Delete a knowledge base entry."""
+    try:
+        conn = get_db_connection()
+        conn.execute('DELETE FROM knowledge_base WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
+        
+        return jsonify({'status': 'success', 'message': 'Knowledge base entry deleted successfully'})
+    except Exception as e:
+        logger.error(f"Error deleting knowledge base: {e}")
         return jsonify({'error': str(e)}), 500
 
 
@@ -101,52 +152,40 @@ def login():
             session.permanent = True
         
         # Log session start
-        try:
-            conn = get_db_connection()
-            ip_address = request.remote_addr
-            user_agent = request.headers.get('User-Agent', '')
-            login_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            
-            cursor = conn.execute(
-                'INSERT INTO session_logs (username, login_time, ip_address, user_agent) VALUES (?, ?, ?, ?)',
-                (username, login_time, ip_address, user_agent)
-            )
-            session['session_log_id'] = cursor.lastrowid
-            conn.commit()
-            conn.close()
-        except Exception as e:
-            print(f"Error logging session start: {e}")
-        
-        return jsonify({'success': True, 'message': 'Login successful'})
-    else:
-        return jsonify({'success': False, 'message': 'Invalid username or password'}), 401
+        if user:
+            session['logged_in'] = True
+            session['username'] = username
+            session['user_role'] = user['role']
+            if remember:
+                session.permanent = True
+
+            # Log session start
+            try:
+                conn = get_db_connection()
+                ip_address = request.remote_addr
+                user_agent = request.headers.get('User-Agent', '')
+                login_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                # Log to session_logs
+                cursor = conn.execute(
+                    'INSERT INTO session_logs (username, login_time, ip_address, user_agent) VALUES (?, ?, ?, ?)',
+                    (username, login_time, ip_address, user_agent)
+                )
+                # Log to user_activity for dashboard chart (supervisor activity)
+                conn.execute(
+                    'INSERT INTO user_activity (customer_id, start_time, last_heartbeat, duration_seconds, status) VALUES (?, ?, ?, 0, ?)',
+                    (username, login_time, login_time, 'active')
+                )
+                conn.commit()
+                conn.close()
+            except Exception as e:
+                logger.error(f"Error logging session: {e}")
+            return jsonify({'success': True, 'message': 'Login successful'})
+    
+    return jsonify({'success': False, 'message': 'Invalid username or password'}), 401
 
 @app.route('/logout')
 def logout():
-    """Handle logout"""
-    # Log session end
-    try:
-        session_log_id = session.get('session_log_id')
-        if session_log_id:
-            conn = get_db_connection()
-            logout_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            
-            # Get login time to calculate duration
-            session_log = conn.execute('SELECT login_time FROM session_logs WHERE id = ?', (session_log_id,)).fetchone()
-            if session_log:
-                login_time = datetime.datetime.strptime(session_log['login_time'], '%Y-%m-%d %H:%M:%S')
-                logout_time_dt = datetime.datetime.strptime(logout_time, '%Y-%m-%d %H:%M:%S')
-                duration_seconds = int((logout_time_dt - login_time).total_seconds())
-                
-                conn.execute(
-                    'UPDATE session_logs SET logout_time = ?, session_duration = ? WHERE id = ?',
-                    (logout_time, duration_seconds, session_log_id)
-                )
-                conn.commit()
-            conn.close()
-    except Exception as e:
-        print(f"Error logging session end: {e}")
-    
+    """Handle logout - clear session and redirect to login"""
     session.clear()
     return redirect('/login')
 
@@ -660,10 +699,10 @@ def image_files(filename):
 
 @app.route('/requests', methods=['GET'])
 @login_required
-def get_pending_requests():
-    """API endpoint to get all pending help requests."""
+def get_all_requests():
+    """API endpoint to get all help requests (pending, resolved, unresolved)."""
     conn = get_db_connection()
-    requests = conn.execute("SELECT * FROM help_requests WHERE status = 'Pending' ORDER BY created_at ASC").fetchall()
+    requests = conn.execute("SELECT * FROM help_requests ORDER BY created_at DESC").fetchall()
     conn.close()
     # Convert the database rows to a list of dictionaries to send as JSON
     return jsonify([dict(ix) for ix in requests])
@@ -697,9 +736,9 @@ def respond_to_request(request_id):
         original_question = request_info['question_text']
         try:
             conn.execute("INSERT INTO knowledge_base (question, answer) VALUES (?, ?)", (original_question, supervisor_answer))
-            print(f"KNOWLEDGE BASE UPDATED: '{original_question}' -> '{supervisor_answer}'")
+            logger.info(f"KNOWLEDGE BASE UPDATED: '{original_question}' -> '{supervisor_answer}'")
         except sqlite3.IntegrityError:
-            print(f"KNOWLEDGE BASE INFO: Question '{original_question}' already exists.")
+            logger.info(f"KNOWLEDGE BASE INFO: Question '{original_question}' already exists.")
 
         conn.commit()
     except Exception as e:
@@ -711,14 +750,13 @@ def respond_to_request(request_id):
 
     # 3. Simulate texting back the original caller
     customer_id = request_info['customer_identifier']
-    print("-" * 50)
-    print(f"SIMULATING TEXT TO CUSTOMER: {customer_id}")
-    print(f"MESSAGE: Regarding your question '{original_question}', the answer is: '{supervisor_answer}'")
-    print(f"RESOLVED BY: {supervisor_username}")
-    print("-" * 50)
-    
+    logger.info("-" * 50)
+    logger.info(f"SIMULATING TEXT TO CUSTOMER: {customer_id}")
+    logger.info(f"MESSAGE: Regarding your question '{original_question}', the answer is: '{supervisor_answer}'")
+    logger.info(f"RESOLVED BY: {supervisor_username}")
+    logger.info("-" * 50)
     # 4. Notify that answer is ready for agent to send to customer
-    print("🔔 Answer is now available for the agent to send to customer!")
+    logger.info("🔔 Answer is now available for the agent to send to customer!")
 
     return jsonify({'status': 'success'})
 
@@ -817,10 +855,10 @@ def delete_request(request_id):
         result = conn.execute("DELETE FROM help_requests WHERE id = ?", (request_id,))
         conn.commit()
         conn.close()
-        print(f"Request ID {request_id} deleted successfully.")
+        logger.info(f"Request ID {request_id} deleted successfully.")
         return jsonify({'status': 'success'})
     except Exception as e:
-        print(f"Error deleting request ID {request_id}: {e}")
+        logger.error(f"Error deleting request ID {request_id}: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/session-logs')
@@ -855,7 +893,7 @@ def get_session_logs():
         
         return jsonify(session_logs)
     except Exception as e:
-        print(f"Error fetching session logs: {e}")
+        logger.error(f"Error fetching session logs: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/user-activity')
@@ -871,7 +909,12 @@ def get_user_activity():
                 customer_id,
                 start_time,
                 last_heartbeat,
-                ROUND(duration_seconds / 60.0, 2) as duration_minutes,
+                CASE 
+                    WHEN status = 'active' THEN 
+                        ABS(ROUND((julianday('now') - julianday(start_time)) * 1440.0, 2))
+                    ELSE 
+                        ABS(ROUND(duration_seconds / 60.0, 2))
+                END as duration_minutes,
                 status
             FROM user_activity 
             WHERE datetime(start_time) >= datetime('now', '-24 hours')
